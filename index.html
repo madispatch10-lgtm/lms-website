@@ -39,7 +39,7 @@ input, button, select { padding:10px; margin:8px; width:90%; }
 </div>
 
 <div class="box hidden" id="courseBox">
-<h2>Course Unlocked</h2>
+<h2>Course Unlocked 🎉</h2>
 <ul id="courseContent" style="text-align:left"></ul>
 </div>
 
@@ -125,8 +125,8 @@ window.submitQuiz = async function(){
 let correct = true;
 
 currentQuestions.forEach((q,i)=>{
-const ans = document.getElementById('q'+i).value.toLowerCase();
-if(!ans.includes(q.a)) correct = false;
+const ans = (document.getElementById('q'+i).value || "").trim().toLowerCase();
+if(ans !== q.a) correct = false;
 });
 
 if(correct){
@@ -153,7 +153,8 @@ if(attemptsLeft <= 0){
 alert("Failed");
 location.reload();
 } else {
-document.getElementById('attempts').innerText = "Wrong! Attempts: " + attemptsLeft;
+document.getElementById('attempts').innerText =
+"Wrong! Attempts left: " + attemptsLeft;
 }
 }
 };
