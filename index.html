@@ -3,55 +3,48 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Professional LMS</title>
+<title>Pro LMS Advanced</title>
 <style>
 body{
 margin:0;
-font-family:Arial, sans-serif;
-background:#0f172a;
-color:#e2e8f0;
+font-family:Arial,sans-serif;
+background:linear-gradient(135deg,#0f172a,#111827);
+color:#e5e7eb;
 }
 
-.nav{
+.topbar{
+background:#0b1220;
+padding:15px 20px;
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:15px 25px;
-background:#111827;
-}
-
-.nav h1{
-font-size:18px;
 }
 
 .container{
-display:flex;
-justify-content:center;
-align-items:center;
-min-height:90vh;
 padding:20px;
+max-width:1000px;
+margin:auto;
 }
 
 .card{
-background:#1f2937;
-padding:25px;
-border-radius:15px;
-width:100%;
-max-width:420px;
-box-shadow:0 10px 30px rgba(0,0,0,0.4);
+background:#111827;
+padding:20px;
+border-radius:14px;
+box-shadow:0 10px 25px rgba(0,0,0,0.4);
+margin:10px 0;
 }
 
-input, select, button{
+input,select,button{
 width:100%;
 padding:12px;
 margin:8px 0;
-border-radius:8px;
+border-radius:10px;
 border:none;
 font-size:14px;
 }
 
-input, select{
-background:#111827;
+input,select{
+background:#0b1220;
 color:white;
 }
 
@@ -59,36 +52,54 @@ button{
 background:#3b82f6;
 color:white;
 cursor:pointer;
-transition:0.2s;
+font-weight:bold;
 }
 
-button:hover{
-background:#2563eb;
-}
+button:hover{background:#2563eb;}
 
 .hidden{display:none;}
 
-.question{
-text-align:left;
-margin:10px 0;
-padding:10px;
-background:#111827;
-border-radius:8px;
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:15px;
 }
 
-.sidebar{
-position:fixed;
-left:0;
-top:0;
-height:100%;
-width:200px;
-background:#111827;
+.courseBox{
+background:#0b1220;
 padding:15px;
+border-radius:12px;
+cursor:pointer;
 }
 
-.main{
-margin-left:220px;
-padding:20px;
+.courseBox:hover{background:#1f2937;}
+
+.lesson{
+background:#0b1220;
+padding:12px;
+margin:8px 0;
+border-radius:10px;
+}
+
+.progressBar{
+height:10px;
+background:#1f2937;
+border-radius:20px;
+overflow:hidden;
+margin:10px 0;
+}
+
+.progress{
+height:100%;
+width:0%;
+background:#22c55e;
+}
+
+.video{
+background:#0b1220;
+padding:12px;
+border-radius:10px;
+margin:8px 0;
 }
 
 .badge{
@@ -101,137 +112,140 @@ font-size:12px;
 </head>
 <body>
 
-<div class="nav">
-<h1>🚀 Pro LMS Dashboard</h1>
-<span class="badge">Online</span>
+<div class="topbar">
+<h2>🚀 Pro LMS Advanced</h2>
+<span id="userStatus">Not Logged In</span>
 </div>
 
-<div class="container">
-
-<div class="card" id="loginBox">
+<!-- LOGIN -->
+<div class="container" id="loginPage">
+<div class="card">
 <h2>Login / Register</h2>
 <input type="email" id="email" placeholder="Email">
 <input type="password" id="password" placeholder="Password">
 <button onclick="register()">Register</button>
 <button onclick="login()">Login</button>
 </div>
-
 </div>
 
-<div class="main hidden" id="dashboard">
-
-<h2>Welcome 👋</h2>
-
+<!-- DASHBOARD -->
+<div class="container hidden" id="dashboardPage">
 <div class="card">
-<h3>Select Course</h3>
-<select id="track">
-<option value="sales">Sales Training</option>
-<option value="dispatch">Dispatch Training</option>
-</select>
-<button onclick="startQuiz()">Start Assessment</button>
+<h2>Dashboard</h2>
+<div class="progressBar"><div class="progress" id="progress"></div></div>
+<p>Course Progress</p>
+
+<div class="grid">
+<div class="courseBox" onclick="openCourse('sales')">
+<h3>Sales Training</h3>
+<p>Learn sales skills</p>
+</div>
+<div class="courseBox" onclick="openCourse('dispatch')">
+<h3>Dispatch Training</h3>
+<p>Learn logistics dispatch</p>
+</div>
+</div>
+
 <button onclick="logout()" style="background:#ef4444">Logout</button>
 </div>
-
-<div class="card hidden" id="quizBox">
-<h3>Quiz</h3>
-<div id="questions"></div>
-<button onclick="submitQuiz()">Submit Quiz</button>
-<p id="attempts"></p>
 </div>
 
-<div class="card hidden" id="courseBox">
-<h3>Course Unlocked 🎉</h3>
-<ul id="courseContent"></ul>
+<!-- COURSE PAGE -->
+<div class="container hidden" id="coursePage">
+<div class="card">
+<h2 id="courseTitle">Course</h2>
+<div id="videos"></div>
+<div id="lessons"></div>
+
+<button onclick="completeLesson()">Mark Progress</button>
+<button onclick="certificate()" style="background:#22c55e">Get Certificate</button>
+<button onclick="backDashboard()">Back</button>
+</div>
 </div>
 
+<!-- CERTIFICATE -->
+<div class="container hidden" id="certPage">
+<div class="card">
+<h2>🎓 Certificate</h2>
+<p id="certText"></p>
+<button onclick="backDashboard()">Back</button>
+</div>
 </div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
-import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
 
-const firebaseConfig = {
-apiKey: "AIzaSyB3kxO-o65YpZGeLRP-sF_m8BR9rt6lkz8",
-authDomain: "lms-training-7bb26.firebaseapp.com",
-projectId: "lms-training-7bb26",
-storageBucket: "lms-training-7bb26.firebasestorage.app",
-messagingSenderId: "791631109001",
-appId: "1:791631109001:web:f5d7fc5c2755ae01649f58"
+const firebaseConfig={
+apiKey:"AIzaSyB3kxO-o65YpZGeLRP-sF_m8BR9rt6lkz8",
+authDomain:"lms-training-7bb26.firebaseapp.com",
+projectId:"lms-training-7bb26",
+storageBucket:"lms-training-7bb26.firebasestorage.app",
+messagingSenderId:"791631109001",
+appId:"1:791631109001:web:f5d7fc5c2755ae01649f58"
 };
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app);
 
-let attemptsLeft = 3;
-let currentUser = null;
-let currentQuestions = [];
+let currentUser=null;
+let progress=0;
+let currentCourse="";
 
-const salesQuiz = [
-{q:"What is cold calling?", a:"calling"},
-{q:"What is lead generation?", a:"lead"},
-{q:"What is closing?", a:"closing"}
-];
+const courses={
+sales:{
+videos:["Intro Video","Sales Mindset","Closing Techniques"],
+lessons:["Cold Calling","Lead Handling","Closing Deals"]
+},
+dispatch:{
+videos:["Dispatch Intro","Load Board","Broker Calls"],
+lessons:["Load Booking","Rate Negotiation","Carrier Management"]
+}
+};
 
-const dispatchQuiz = [
-{q:"What is load booking?", a:"load"},
-{q:"What is broker?", a:"broker"},
-{q:"What is rate?", a:"rate"}
-];
-
-window.register = async function(){
-const email=document.getElementById('email').value;
-const password=document.getElementById('password').value;
-await createUserWithEmailAndPassword(auth,email,password);
+window.register=async()=>{
+await createUserWithEmailAndPassword(auth,email.value,password.value);
 alert("Registered");
 };
 
-window.login = async function(){
-const email=document.getElementById('email').value;
-const password=document.getElementById('password').value;
-const res=await signInWithEmailAndPassword(auth,email,password);
+window.login=async()=>{
+const res=await signInWithEmailAndPassword(auth,email.value,password.value);
 currentUser=res.user;
-document.getElementById('loginBox').classList.add('hidden');
-document.getElementById('dashboard').classList.remove('hidden');
+loginPage.classList.add("hidden");
+dashboardPage.classList.remove("hidden");
+userStatus.innerText=email.value;
 };
 
-window.logout=async function(){
-await signOut(auth);
-location.reload();
+window.logout=async()=>{await signOut(auth);location.reload();};
+
+window.openCourse=(type)=>{
+currentCourse=type;
+dashboardPage.classList.add("hidden");
+coursePage.classList.remove("hidden");
+
+courseTitle.innerText=type.toUpperCase()+" COURSE";
+
+videos.innerHTML=courses[type].videos.map(v=>`<div class='video'>🎥 ${v}</div>`).join("");
+lessons.innerHTML=courses[type].lessons.map(l=>`<div class='lesson'>📘 ${l}</div>`).join("");
 };
 
-window.startQuiz=function(){
-attemptsLeft=3;
-const track=document.getElementById('track').value;
-currentQuestions=track==='sales'?salesQuiz:dispatchQuiz;
-
-let html="";
-currentQuestions.forEach((q,i)=>{
-html+=`<div class='question'>${q.q}<input id='q${i}'></div>`;
-});
-
-document.getElementById('quizBox').classList.remove('hidden');
-document.getElementById('questions').innerHTML=html;
-document.getElementById('attempts').innerText="Attempts: "+attemptsLeft;
+window.completeLesson=()=>{
+progress+=20;
+if(progress>100)progress=100;
+document.getElementById("progress").style.width=progress+"%";
+alert("Progress Updated");
 };
 
-window.submitQuiz=async function(){
-let correct=true;
-currentQuestions.forEach((q,i)=>{
-const ans=(document.getElementById('q'+i).value||"").trim().toLowerCase();
-if(ans!==q.a)correct=false;
-});
+window.certificate=()=>{
+certPage.classList.remove("hidden");
+coursePage.classList.add("hidden");
+certText.innerText=`Congrats ${currentUser.email}, you completed ${currentCourse} course!`;
+};
 
-if(correct){
-document.getElementById('courseBox').classList.remove('hidden');
-document.getElementById('courseContent').innerHTML='<li>Course Unlocked</li>';
-alert("Passed 🎉");
-}else{
-attemptsLeft--;
-if(attemptsLeft<=0){location.reload();}
-else{document.getElementById('attempts').innerText="Attempts left: "+attemptsLeft;}
-}
+window.backDashboard=()=>{
+certPage.classList.add("hidden");
+coursePage.classList.add("hidden");
+dashboardPage.classList.remove("hidden");
 };
 </script>
 
