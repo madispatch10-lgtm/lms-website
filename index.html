@@ -2,27 +2,26 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Elite LMS</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<title>Elite LMS Pro</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
-body{margin:0;font-family:'Inter',sans-serif;background:#f4f6f9;color:#1f2937;display:flex}
+body{margin:0;font-family:'Poppins',sans-serif;background:linear-gradient(135deg,#1e3a8a,#9333ea);color:#111;display:flex}
 .sidebar{width:260px;background:#111827;color:white;height:100vh;padding:20px;overflow:auto}
-.sidebar h3{margin-top:0}
-.sidebar button{width:100%;padding:10px;margin:6px 0;border:none;border-radius:6px;background:#1f2937;color:white;cursor:pointer;text-align:left}
+.sidebar button{width:100%;padding:10px;margin:6px 0;border:none;border-radius:6px;background:#1f2937;color:white;cursor:pointer}
 .sidebar button:hover{background:#374151}
 .main{flex:1;padding:30px}
-.card{background:white;padding:25px;border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,0.08)}
-button.primary{background:#2563eb;color:white;border:none;padding:12px;border-radius:8px;margin-top:15px;cursor:pointer}
-button.primary:hover{background:#1d4ed8}
+.card{background:white;padding:25px;border-radius:14px;box-shadow:0 6px 20px rgba(0,0,0,0.15)}
+button.primary{background:#22c55e;color:white;border:none;padding:12px;border-radius:8px;margin-top:15px;cursor:pointer}
+button.primary:hover{background:#16a34a}
 .hidden{display:none}
-.progress{height:8px;background:#e5e7eb;border-radius:10px;margin:15px 0}
-.bar{height:100%;width:0%;background:#10b981;border-radius:10px}
+.progress{height:10px;background:#e5e7eb;border-radius:10px;margin:15px 0}
+.bar{height:100%;width:0%;background:#22c55e;border-radius:10px}
 </style>
 </head>
 <body>
 
 <div class="sidebar hidden" id="sidebar">
-<h3>Course Modules</h3>
+<h3>Modules</h3>
 <div id="chapterList"></div>
 <button onclick="backToDashboard()">⬅ Back</button>
 </div>
@@ -62,118 +61,68 @@ button.primary:hover{background:#1d4ed8}
 
 const courses={
 
-dispatch:[
-`<h3>Introduction to Dispatch</h3>
-<p>Dispatching is the central coordination role in the trucking industry. A dispatcher acts as the bridge between carriers (truck owners/drivers) and brokers (who provide loads).</p>
-<p>A carrier owns the truck and moves freight, while a broker connects shippers with carriers.</p>
-<p>Shippers are companies that need goods transported, and receivers are the final destination.</p>
-<p>A dispatcher ensures the driver gets consistent loads, good rates, and smooth routes.</p>
-<p>Professional dispatchers maintain strong communication and manage time efficiently.</p>` ,
-
-`<h3>Load Boards & Booking</h3>
-<p>Load boards like DAT and Truckstop are platforms where brokers post loads.</p>
-<p>Dispatchers search using filters like pickup, destination, and equipment type.</p>
-<p>A good load has high RPM (rate per mile) and low deadhead miles.</p>
-<p>To book a load, you call the broker using tools like Google Voice or RingCentral.</p>
-<p>Always confirm rate, miles, and delivery time before booking.</p>` ,
-
-`<h3>Deadhead & Miles</h3>
-<p>Deadhead refers to empty miles traveled without a load.</p>
-<p>Loaded miles are when the truck is carrying freight.</p>
-<p>Negative deadhead means losing profit due to long empty travel.</p>
-<p>ETA means Estimated Time of Arrival.</p>
-<p>The best load balances high rate and low deadhead.</p>` ,
-
-`<h3>Payments & Invoices</h3>
-<p>After 7 days of work, dispatchers send invoices to carriers.</p>
-<p>The agreed percentage or flat fee is deducted.</p>
-<p>Payments can be made via Zelle, PayPal, or Cash App.</p>
-<p>Always maintain clear records for trust and transparency.</p>` ,
-
-`<h3>Freight Guard & Broker Credit</h3>
-<p>Freight Guard shows complaints or reports about brokers.</p>
-<p>Always check broker credit score before booking loads.</p>
-<p>Negotiate confidently to get better rates.</p>
-<p>A perfect deal balances good rate, safe broker, and good route.</p>` ,
-
-`<h3>Important Documents</h3>
-<p>TONU means Truck Order Not Used (cancellation fee).</p>
-<p>COI is Certificate of Insurance.</p>
-<p>W9 Form is used for tax identification.</p>
-<p>MC Authority proves carrier is authorized.</p>
-<p>Void check is used for payment setup.</p>` ,
-
-`<h3>Truck Types</h3>
-<p>Common types include Reefer, Flatbed, Step Deck, Dry Van, and Box Truck.</p>
-<p>Each has different capacity and RPM rates.</p>
-<p>Choosing the right load depends on truck type.</p>` ,
-
-`<h3>Documents in Delivery</h3>
-<p>POD (Proof of Delivery) confirms shipment delivered.</p>
-<p>BOL (Bill of Lading) contains shipment details.</p>
-<p>Rate Confirmation shows agreed payment.</p>`
-],
-
 sales:[
 `<h3>Introduction to Sales</h3>
-<p>Sales is about solving customer problems and delivering value.</p>
-<p>Trust is the foundation of every successful sale.</p>
-<p>A good salesperson listens more than speaks.</p>
-<p>Understanding the product deeply is essential.</p>
-<p>Consistency and confidence lead to results.</p>` ,
+<p>Sales is the process of understanding customer needs and offering solutions that solve real problems. A professional salesperson does not push products but builds trust and value.</p>
+<p>To succeed in sales, you must understand your product, your market, and your customer deeply.</p>
+<p>Confidence, consistency, and communication are key skills.</p>
+<p>Always focus on helping the customer instead of forcing a deal.</p>
+<p>Sales is not luck; it is a skill developed through practice.</p>`,
 
 `<h3>Customer Psychology</h3>
-<p>Customers buy emotionally and justify logically.</p>
-<p>Understanding pain points is critical.</p>
-<p>People prefer trust over price.</p>
-<p>Building rapport increases conversion rate.</p>` ,
-
-`<h3>Communication Skills</h3>
-<p>Clear and confident communication is key.</p>
-<p>Use simple language and avoid confusion.</p>
-<p>Active listening builds trust.</p>` ,
+<p>Customers make decisions emotionally and justify them logically. Understanding this behavior is essential.</p>
+<p>Fear of loss, desire for gain, and trust influence decisions.</p>
+<p>Good salespeople identify pain points and offer clear solutions.</p>
+<p>Building rapport increases conversion chances.</p>
+<p>Always listen before speaking.</p>`,
 
 `<h3>Cold Calling</h3>
-<p>Cold calling means contacting new prospects.</p>
-<p>A strong opening grabs attention.</p>
-<p>Confidence and tone matter more than script.</p>` ,
+<p>Cold calling means reaching out to potential clients who do not know you.</p>
+<p>A strong opening is critical to grab attention.</p>
+<p>Keep your message clear and valuable.</p>
+<p>Confidence in voice creates trust.</p>
+<p>Practice scripts but sound natural.</p>`
+],
 
-`<h3>Handling Objections</h3>
-<p>Objections are normal in sales.</p>
-<p>Stay calm and respond logically.</p>
-<p>Common objections include price and trust.</p>` ,
+dispatch:[
+`<h3>Introduction to Dispatch</h3>
+<p>Dispatching is managing trucks, loads, and drivers in the logistics industry. A dispatcher connects brokers and carriers.</p>
+<p>Carriers own trucks, brokers provide loads, shippers send goods, and receivers accept them.</p>
+<p>A dispatcher ensures smooth operations and good profit.</p>
+<p>Strong communication and planning are required.</p>
+<p>This role requires focus and decision-making.</p>`,
 
-`<h3>Closing Techniques</h3>
-<p>Closing is finalizing the deal.</p>
-<p>Create urgency and clarity.</p>
-<p>Guide the customer toward decision.</p>` ,
+`<h3>Load Boards</h3>
+<p>Load boards like DAT are used to find loads.</p>
+<p>Filter loads by location, type, and rate.</p>
+<p>Always calculate RPM (rate per mile).</p>
+<p>Call brokers professionally to book loads.</p>
+<p>Confirm all details before dispatching.</p>`
+]
+};
 
-`<h3>Follow Up</h3>
-<p>Most sales happen after follow-ups.</p>
-<p>Stay consistent and professional.</p>` ,
+const quizData={
+sales:[
+{q:"Sales is about?",o:["Solving problems","Forcing","Ignoring"],a:0},
+{q:"Customers buy based on?",o:["Emotion","Nothing","Random"],a:0},
+{q:"Cold calling means?",o:["New clients","Old","None"],a:0}
+],
 
-`<h3>Professional Growth</h3>
-<p>Practice improves sales skills.</p>
-<p>Track performance and improve daily.</p>`
+dispatch:[
+{q:"Dispatch connects?",o:["Broker & carrier","Shop & home","None"],a:0},
+{q:"RPM means?",o:["Rate per mile","Speed","Fuel"],a:0}
 ]
 };
 
 let currentCourse="";
 let index=0;
 
-function login(){
-loginPage.classList.add('hidden');
-dashboard.classList.remove('hidden');
-}
+function login(){loginPage.classList.add('hidden');dashboard.classList.remove('hidden');}
 
 function startCourse(type){
-currentCourse=type;
-index=0;
-dashboard.classList.add('hidden');
-coursePage.classList.remove('hidden');
-sidebar.classList.remove('hidden');
-renderSidebar();
-loadChapter();
+currentCourse=type;index=0;
+dashboard.classList.add('hidden');coursePage.classList.remove('hidden');sidebar.classList.remove('hidden');
+renderSidebar();loadChapter();
 }
 
 function renderSidebar(){
@@ -186,26 +135,32 @@ chapterList.innerHTML=html;
 
 function loadChapter(){
 content.innerHTML=courses[currentCourse][index];
-title.innerText=currentCourse.toUpperCase()+" (Module "+(index+1)+")";
+title.innerText=currentCourse.toUpperCase()+" Module "+(index+1);
 bar.style.width=((index+1)/courses[currentCourse].length*100)+"%";
 }
 
-function nextChapter(){
-if(index<courses[currentCourse].length-1){index++;loadChapter();}
-}
-
+function nextChapter(){if(index<courses[currentCourse].length-1){index++;loadChapter();}}
 function goTo(i){index=i;loadChapter();}
-
-function backToDashboard(){
-sidebar.classList.add('hidden');
-coursePage.classList.add('hidden');
-dashboard.classList.remove('hidden');
-}
+function backToDashboard(){sidebar.classList.add('hidden');coursePage.classList.add('hidden');dashboard.classList.remove('hidden');}
 
 function startQuiz(){
-coursePage.classList.add('hidden');
-quizPage.classList.remove('hidden');
-quizBox.innerHTML="<p>Quiz coming soon (you can expand this next)</p>";
+coursePage.classList.add('hidden');quizPage.classList.remove('hidden');
+let html="";
+quizData[currentCourse].forEach((q,i)=>{
+html+=`<p>${q.q}</p>`;
+q.o.forEach((opt,j)=>{html+=`<label><input type='radio' name='q${i}' value='${j}'> ${opt}</label><br>`;});
+});
+quizBox.innerHTML=html;
+}
+
+function submitQuiz(){
+let score=0;
+quizData[currentCourse].forEach((q,i)=>{
+let ans=document.querySelector(`input[name="q${i}"]:checked`);
+if(ans && parseInt(ans.value)===q.a){score++;}
+});
+alert("Score: "+score+"/"+quizData[currentCourse].length);
+location.reload();
 }
 
 </script>
