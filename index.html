@@ -2,18 +2,113 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Pro LMS</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Professional LMS</title>
 <style>
-body { font-family: Arial; background:#eef2f7; text-align:center; }
-.box { background:white; padding:25px; margin:40px auto; width:450px; border-radius:12px; box-shadow:0 5px 15px rgba(0,0,0,0.1);} 
-input, button, select { padding:10px; margin:8px; width:90%; }
-.hidden { display:none; }
-.question { text-align:left; margin:10px 0; }
+body{
+margin:0;
+font-family:Arial, sans-serif;
+background:#0f172a;
+color:#e2e8f0;
+}
+
+.nav{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:15px 25px;
+background:#111827;
+}
+
+.nav h1{
+font-size:18px;
+}
+
+.container{
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:90vh;
+padding:20px;
+}
+
+.card{
+background:#1f2937;
+padding:25px;
+border-radius:15px;
+width:100%;
+max-width:420px;
+box-shadow:0 10px 30px rgba(0,0,0,0.4);
+}
+
+input, select, button{
+width:100%;
+padding:12px;
+margin:8px 0;
+border-radius:8px;
+border:none;
+font-size:14px;
+}
+
+input, select{
+background:#111827;
+color:white;
+}
+
+button{
+background:#3b82f6;
+color:white;
+cursor:pointer;
+transition:0.2s;
+}
+
+button:hover{
+background:#2563eb;
+}
+
+.hidden{display:none;}
+
+.question{
+text-align:left;
+margin:10px 0;
+padding:10px;
+background:#111827;
+border-radius:8px;
+}
+
+.sidebar{
+position:fixed;
+left:0;
+top:0;
+height:100%;
+width:200px;
+background:#111827;
+padding:15px;
+}
+
+.main{
+margin-left:220px;
+padding:20px;
+}
+
+.badge{
+background:#22c55e;
+padding:5px 10px;
+border-radius:20px;
+font-size:12px;
+}
 </style>
 </head>
 <body>
 
-<div class="box" id="loginBox">
+<div class="nav">
+<h1>🚀 Pro LMS Dashboard</h1>
+<span class="badge">Online</span>
+</div>
+
+<div class="container">
+
+<div class="card" id="loginBox">
 <h2>Login / Register</h2>
 <input type="email" id="email" placeholder="Email">
 <input type="password" id="password" placeholder="Password">
@@ -21,26 +116,34 @@ input, button, select { padding:10px; margin:8px; width:90%; }
 <button onclick="login()">Login</button>
 </div>
 
-<div class="box hidden" id="dashboardBox">
-<h2>Dashboard</h2>
-<select id="track">
-<option value="sales">Sales</option>
-<option value="dispatch">Dispatch</option>
-</select>
-<button onclick="startQuiz()">Start Quiz</button>
-<button onclick="logout()">Logout</button>
 </div>
 
-<div class="box hidden" id="quizBox">
-<h2 id="quizTitle"></h2>
+<div class="main hidden" id="dashboard">
+
+<h2>Welcome 👋</h2>
+
+<div class="card">
+<h3>Select Course</h3>
+<select id="track">
+<option value="sales">Sales Training</option>
+<option value="dispatch">Dispatch Training</option>
+</select>
+<button onclick="startQuiz()">Start Assessment</button>
+<button onclick="logout()" style="background:#ef4444">Logout</button>
+</div>
+
+<div class="card hidden" id="quizBox">
+<h3>Quiz</h3>
 <div id="questions"></div>
-<button onclick="submitQuiz()">Submit</button>
+<button onclick="submitQuiz()">Submit Quiz</button>
 <p id="attempts"></p>
 </div>
 
-<div class="box hidden" id="courseBox">
-<h2>Course Unlocked 🎉</h2>
-<ul id="courseContent" style="text-align:left"></ul>
+<div class="card hidden" id="courseBox">
+<h3>Course Unlocked 🎉</h3>
+<ul id="courseContent"></ul>
+</div>
+
 </div>
 
 <script type="module">
@@ -49,13 +152,12 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, si
 import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyB3kxO-o65YpZGeLRP-sF_m8BR9rt6lkz8",
-  authDomain: "lms-training-7bb26.firebaseapp.com",
-  projectId: "lms-training-7bb26",
-  storageBucket: "lms-training-7bb26.firebasestorage.app",
-  messagingSenderId: "791631109001",
-  appId: "1:791631109001:web:f5d7fc5c2755ae01649f58",
-  measurementId: "G-XKKPYPXYSP"
+apiKey: "AIzaSyB3kxO-o65YpZGeLRP-sF_m8BR9rt6lkz8",
+authDomain: "lms-training-7bb26.firebaseapp.com",
+projectId: "lms-training-7bb26",
+storageBucket: "lms-training-7bb26.firebasestorage.app",
+messagingSenderId: "791631109001",
+appId: "1:791631109001:web:f5d7fc5c2755ae01649f58"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -79,91 +181,59 @@ const dispatchQuiz = [
 ];
 
 window.register = async function(){
-const email = document.getElementById('email').value;
-const password = document.getElementById('password').value;
-try {
-await createUserWithEmailAndPassword(auth, email, password);
+const email=document.getElementById('email').value;
+const password=document.getElementById('password').value;
+await createUserWithEmailAndPassword(auth,email,password);
 alert("Registered");
-} catch(e){ alert(e.message); }
 };
 
 window.login = async function(){
-const email = document.getElementById('email').value;
-const password = document.getElementById('password').value;
-try {
-const res = await signInWithEmailAndPassword(auth, email, password);
-currentUser = res.user;
+const email=document.getElementById('email').value;
+const password=document.getElementById('password').value;
+const res=await signInWithEmailAndPassword(auth,email,password);
+currentUser=res.user;
 document.getElementById('loginBox').classList.add('hidden');
-document.getElementById('dashboardBox').classList.remove('hidden');
-} catch(e){ alert(e.message); }
+document.getElementById('dashboard').classList.remove('hidden');
 };
 
-window.logout = async function(){
+window.logout=async function(){
 await signOut(auth);
 location.reload();
 };
 
-window.startQuiz = function(){
-attemptsLeft = 3;
-const track = document.getElementById('track').value;
+window.startQuiz=function(){
+attemptsLeft=3;
+const track=document.getElementById('track').value;
+currentQuestions=track==='sales'?salesQuiz:dispatchQuiz;
 
-document.getElementById('dashboardBox').classList.add('hidden');
-document.getElementById('quizBox').classList.remove('hidden');
-
-currentQuestions = track === 'sales' ? salesQuiz : dispatchQuiz;
-
-let html = "";
+let html="";
 currentQuestions.forEach((q,i)=>{
-html += `<div class='question'>${i+1}. ${q.q}<br><input id='q${i}'></div>`;
+html+=`<div class='question'>${q.q}<input id='q${i}'></div>`;
 });
 
-document.getElementById('questions').innerHTML = html;
-document.getElementById('attempts').innerText = "Attempts: " + attemptsLeft;
+document.getElementById('quizBox').classList.remove('hidden');
+document.getElementById('questions').innerHTML=html;
+document.getElementById('attempts').innerText="Attempts: "+attemptsLeft;
 };
 
-window.submitQuiz = async function () {
-let correct = true;
-
-currentQuestions.forEach((q, i) => {
-const el = document.getElementById('q' + i);
-
-if (!el) correct = false;
-
-const ans = (el.value || "").trim().toLowerCase();
-
-if (ans.indexOf(q.a) === -1) {
-correct = false;
-}
+window.submitQuiz=async function(){
+let correct=true;
+currentQuestions.forEach((q,i)=>{
+const ans=(document.getElementById('q'+i).value||"").trim().toLowerCase();
+if(ans!==q.a)correct=false;
 });
 
-if (correct) {
-const track = document.getElementById('track').value;
-
-if (currentUser) {
-await setDoc(doc(db, "users", currentUser.uid), {
-course: track,
-completed: true
-});
-}
-
-document.getElementById('quizBox').classList.add('hidden');
+if(correct){
 document.getElementById('courseBox').classList.remove('hidden');
-
-document.getElementById('courseContent').innerHTML =
-track === 'sales'
-? '<li>Cold calling</li><li>Closing</li>'
-: '<li>Load booking</li><li>Negotiation</li>';
-
+document.getElementById('courseContent').innerHTML='<li>Course Unlocked</li>';
 alert("Passed 🎉");
-} else {
+}else{
 attemptsLeft--;
-
-if (attemptsLeft <= 0) {
-alert("Failed ❌");
-location.reload();
-} else {
-document.getElementById('attempts').innerText =
-"Wrong! Attempts left: " + attemptsLeft;
-}
+if(attemptsLeft<=0){location.reload();}
+else{document.getElementById('attempts').innerText="Attempts left: "+attemptsLeft;}
 }
 };
+</script>
+
+</body>
+</html>
