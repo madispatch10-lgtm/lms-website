@@ -1,92 +1,48 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Pro LMS</title>
+<title>LMS Pro Chapters</title>
 <style>
-body{
-font-family:Arial;
-background:#0b1220;
-color:white;
-margin:0;
-}
-
-.header{
-background:#111827;
-padding:15px;
-text-align:center;
-font-size:20px;
-}
-
-.container{
-max-width:800px;
-margin:auto;
-padding:20px;
-}
-
-.card{
-background:#111827;
-padding:20px;
-border-radius:12px;
-margin-top:20px;
-}
-
-input,button{
-width:100%;
-padding:12px;
-margin:8px 0;
-border:none;
-border-radius:8px;
-}
-
-button{
-background:#3b82f6;
-color:white;
-cursor:pointer;
-}
-
+body{font-family:Arial;background:#0b1220;color:white;margin:0;}
+.header{background:#111827;padding:15px;text-align:center;font-size:22px;}
+.container{max-width:900px;margin:auto;padding:20px;}
+.card{background:#111827;padding:25px;border-radius:12px;margin-top:20px;line-height:1.7;}
+button{padding:12px;margin:8px 0;border:none;border-radius:8px;background:#3b82f6;color:white;cursor:pointer;width:100%;}
 button:hover{background:#2563eb;}
-
 .hidden{display:none;}
-
-.question{
-background:#1f2937;
-padding:10px;
-margin:10px 0;
-border-radius:8px;
-text-align:left;
-}
+.question{background:#1f2937;padding:12px;margin:10px 0;border-radius:8px;}
+.navBtns{display:flex;gap:10px;}
 </style>
 </head>
-
 <body>
 
-<div class="header">🚀 Professional LMS</div>
+<div class="header">🚀 LMS Pro Advanced</div>
 
 <div class="container">
 
-<!-- LOGIN -->
 <div class="card" id="loginPage">
 <h2>Login</h2>
-<input id="email" placeholder="Email">
-<input id="password" type="password" placeholder="Password">
+<input id="email" placeholder="Email"><br><br>
+<input id="password" type="password" placeholder="Password"><br><br>
 <button onclick="login()">Login</button>
 </div>
 
-<!-- DASHBOARD -->
 <div class="card hidden" id="dashboard">
 <h2>Select Course</h2>
-<button onclick="openCourse('sales')">📈 Sales Training</button>
-<button onclick="openCourse('dispatch')">🚚 Dispatch Training</button>
+<button onclick="startCourse('sales')">📈 Sales Training</button>
+<button onclick="startCourse('dispatch')">🚚 Dispatch Training</button>
 </div>
 
-<!-- COURSE -->
 <div class="card hidden" id="coursePage">
 <h2 id="courseTitle"></h2>
-<div id="content"></div>
+<div id="chapterContent"></div>
+<div class="navBtns">
+<button onclick="prevChapter()">Previous</button>
+<button onclick="nextChapter()">Next</button>
+</div>
 <button onclick="startQuiz()">Take Test</button>
 </div>
 
-<!-- QUIZ -->
 <div class="card hidden" id="quizPage">
 <h2>Quiz</h2>
 <div id="questions"></div>
@@ -97,77 +53,79 @@ text-align:left;
 
 <script>
 
-const courses = {
-sales: `
-<h3>Sales Training</h3>
-<p>Sales ka main purpose client ko convince karna hota hai.</p>
-<p>Cold calling ka matlab hota hai naye clients ko call karna.</p>
-<p>Closing ka matlab deal finalize karna hota hai.</p>
-<p>Good communication sab se important skill hai.</p>
-`,
-
-dispatch: `
-<h3>Dispatch Training</h3>
-<p>Dispatching ka matlab trucks aur loads manage karna hai.</p>
-<p>Brokers ke sath communication zaroori hoti hai.</p>
-<p>Load booking aur rate negotiation main kaam hai.</p>
-<p>Time management aur follow-up important hai.</p>
-`
+const courses={
+sales:[
+"<h3>Chapter 1: Introduction to Sales</h3><p>Sales is the art of understanding customer needs and offering solutions that create value. A professional salesperson focuses on building trust rather than pushing products.</p><p>Successful salespeople analyze problems, listen carefully, and position their offer as the best solution.</p>",
+"<h3>Chapter 2: Customer Psychology</h3><p>Customers buy based on emotion and justify with logic. Understanding fear, desire, and urgency is critical.</p><p>Always identify pain points and show how your solution removes that pain.</p>",
+"<h3>Chapter 3: Communication Skills</h3><p>Communication is the backbone of sales. Speak clearly, confidently, and avoid complex language.</p><p>Listening is more important than speaking. Ask questions and understand before pitching.</p>",
+"<h3>Chapter 4: Cold Calling</h3><p>Cold calling is reaching out to new prospects. Use a strong opening, introduce yourself quickly, and explain value.</p><p>Confidence and tone matter more than script.</p>",
+"<h3>Chapter 5: Handling Objections</h3><p>Objections are part of the process. Stay calm and respond logically.</p><p>Common objections include price, trust, and timing.</p>",
+"<h3>Chapter 6: Closing Deals</h3><p>Closing is converting a lead into a paying client. Use urgency and clarity.</p><p>Always guide the client toward a decision.</p>",
+"<h
+]
 };
 
-const quiz = {
+const quiz={
 sales:[
-{q:"Cold calling kya hai?",options:["Calling clients","Driving","Email"],a:0},
-{q:"Closing ka matlab?",options:["End deal","Start","Ignore"],a:0}
+{q:"Sales is about?",options:["Solving problems","Forcing","Ignoring"],a:0},
+{q:"Cold calling means?",options:["New clients","Old","None"],a:0},
+{q:"Closing means?",options:["Final deal","Start","End"],a:0}
 ],
 
 dispatch:[
-{q:"Dispatch kya hai?",options:["Truck management","Cooking","Gaming"],a:0},
-{q:"Broker kya karta hai?",options:["Connect loads","Drive","Sleep"],a:0}
+{q:"Dispatching involves?",options:["Managing trucks","Cooking","Gaming"],a:0},
+{q:"Load boards used for?",options:["Loads","Videos","Chat"],a:0}
 ]
 };
 
 let currentCourse="";
+let currentIndex=0;
 
 function login(){
-document.getElementById("loginPage").classList.add("hidden");
-document.getElementById("dashboard").classList.remove("hidden");
+document.getElementById('loginPage').classList.add('hidden');
+document.getElementById('dashboard').classList.remove('hidden');
+}
+function startCourse(type){
+currentCourse=type;
+currentIndex=0;
+dashboard.classList.add('hidden');
+coursePage.classList.remove('hidden');
+courseTitle.innerText=type.toUpperCase()+" COURSE";
+loadChapter();
 }
 
-function openCourse(type){
-currentCourse = type;
+function loadChapter(){
+chapterContent.innerHTML=courses[currentCourse][currentIndex];
+}
 
-document.getElementById("dashboard").classList.add("hidden");
-document.getElementById("coursePage").classList.remove("hidden");
+function nextChapter(){
+if(currentIndex<courses[currentCourse].length-1){currentIndex++;loadChapter();}
+}
 
-document.getElementById("courseTitle").innerText = type.toUpperCase()+" COURSE";
-document.getElementById("content").innerHTML = courses[type];
+function prevChapter(){
+if(currentIndex>0){currentIndex--;loadChapter();}
 }
 
 function startQuiz(){
-document.getElementById("coursePage").classList.add("hidden");
-document.getElementById("quizPage").classList.remove("hidden");
-
+coursePage.classList.add('hidden');
+quizPage.classList.remove('hidden');
 let html="";
 quiz[currentCourse].forEach((q,i)=>{
-html += `<div class="question">${q.q}<br>`;
+html+=`<div class="question">${q.q}<br>`;
 q.options.forEach((opt,j)=>{
-html += `<label><input type="radio" name="q${i}" value="${j}"> ${opt}</label><br>`;
+html+=`<label><input type="radio" name="q${i}" value="${j}"> ${opt}</label><br>`;
 });
-html += `</div>`;
+html+=`</div>`;
 });
-
-document.getElementById("questions").innerHTML = html;
+questions.innerHTML=html;
 }
 
 function submitQuiz(){
-let correct = 0;
-
+let correct=0;
 quiz[currentCourse].forEach((q,i)=>{
-let ans = document.querySelector(`input[name="q${i}"]:checked`);
+let ans=document.querySelector(`input[name="q${i}"]:checked`);
 if(ans && parseInt(ans.value)===q.a){correct++;}
 });
-
 alert("Result: "+correct+" / "+quiz[currentCourse].length);
 location.reload();
 }
@@ -176,3 +134,20 @@ location.reload();
 
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
