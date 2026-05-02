@@ -1,57 +1,48 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Ultimate LMS</title>
+<meta charset="UTF-8">
+<title>Elite LMS</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
-body{margin:0;font-family:Arial;background:#0b1220;color:white;display:flex}
-.sidebar{width:250px;background:#111827;height:100vh;padding:20px;overflow:auto}
+body{margin:0;font-family:'Inter',sans-serif;background:#f4f6f9;color:#1f2937;display:flex}
+.sidebar{width:260px;background:#111827;color:white;height:100vh;padding:20px;overflow:auto}
 .sidebar h3{margin-top:0}
-.sidebar button{width:100%;margin:5px 0;padding:10px;border:none;border-radius:6px;background:#1f2937;color:white;cursor:pointer}
+.sidebar button{width:100%;padding:10px;margin:6px 0;border:none;border-radius:6px;background:#1f2937;color:white;cursor:pointer;text-align:left}
 .sidebar button:hover{background:#374151}
-.main{flex:1;padding:20px}
-.card{background:#111827;padding:20px;border-radius:10px}
-CSS mein add karo:
-
-button.primary{
-background:#3b82f6;
-border:none;
-padding:12px;
-border-radius:8px;
-color:white;
-font-weight:bold;
-}
-
-button.primary:hover{
-background:#2563eb;
-}
-.progress{height:8px;background:#1f2937;border-radius:10px;margin:10px 0}
-.bar{height:100%;width:0%;background:#22c55e;border-radius:10px}
+.main{flex:1;padding:30px}
+.card{background:white;padding:25px;border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,0.08)}
+button.primary{background:#2563eb;color:white;border:none;padding:12px;border-radius:8px;margin-top:15px;cursor:pointer}
+button.primary:hover{background:#1d4ed8}
+.hidden{display:none}
+.progress{height:8px;background:#e5e7eb;border-radius:10px;margin:15px 0}
+.bar{height:100%;width:0%;background:#10b981;border-radius:10px}
 </style>
 </head>
 <body>
 
 <div class="sidebar hidden" id="sidebar">
-<h3>Chapters</h3>
+<h3>Course Modules</h3>
 <div id="chapterList"></div>
-<button onclick="goDashboard()">⬅ Back</button>
+<button onclick="backToDashboard()">⬅ Back</button>
 </div>
 
 <div class="main">
 
-<div class="card" id="login">
+<div class="card" id="loginPage">
 <h2>Login</h2>
-<input id="email" placeholder="Email"><br><br>
-<input id="pass" type="password" placeholder="Password"><br><br>
-<button class="primary" onclick="loginUser()">Login</button>
+<input id="email" placeholder="Email" style="width:100%;padding:10px;margin:8px 0">
+<input id="pass" type="password" placeholder="Password" style="width:100%;padding:10px;margin:8px 0">
+<button class="primary" onclick="login()">Login</button>
 </div>
 
 <div class="card hidden" id="dashboard">
-<h2>Select Course</h2>
+<h2>Select Training</h2>
 <button class="primary" onclick="startCourse('sales')">Sales Training</button>
 <button class="primary" onclick="startCourse('dispatch')">Dispatch Training</button>
 </div>
 
-<div class="card hidden" id="course">
+<div class="card hidden" id="coursePage">
 <h2 id="title"></h2>
 <div class="progress"><div class="bar" id="bar"></div></div>
 <div id="content"></div>
@@ -59,15 +50,10 @@ background:#2563eb;
 <button class="primary" onclick="startQuiz()">Take Test</button>
 </div>
 
-<div class="card hidden" id="quiz">
+<div class="card hidden" id="quizPage">
 <h2>Quiz</h2>
-<div id="qbox"></div>
+<div id="quizBox"></div>
 <button class="primary" onclick="submitQuiz()">Submit</button>
-</div>
-
-<div class="card hidden" id="certificate">
-<h2>🎓 Certificate</h2>
-<p id="certText"></p>
 </div>
 
 </div>
@@ -75,75 +61,117 @@ background:#2563eb;
 <script>
 
 const courses={
-sales:[
-"<h3>Intro</h3><p>Sales is about solving customer problems and building trust.</p>",
-"<h3>Psychology</h3><p>Understand emotions, pain points, and buying triggers.</p>",
-"<h3>Communication</h3><p>Clear, confident, and focused communication wins deals.</p>",
-"<h3>Cold Calling</h3><p>Reach new clients with strong openings.</p>",
-"<h3>Objections</h3><p>Handle price and trust concerns professionally.</p>",
-"<h3>Closing</h3><p>Convert leads into customers.</p>",
-"<h3>Follow Up</h3><p>Consistency closes deals.</p>"
+
+dispatch:[
+`<h3>Introduction to Dispatch</h3>
+<p>Dispatching is the central coordination role in the trucking industry. A dispatcher acts as the bridge between carriers (truck owners/drivers) and brokers (who provide loads).</p>
+<p>A carrier owns the truck and moves freight, while a broker connects shippers with carriers.</p>
+<p>Shippers are companies that need goods transported, and receivers are the final destination.</p>
+<p>A dispatcher ensures the driver gets consistent loads, good rates, and smooth routes.</p>
+<p>Professional dispatchers maintain strong communication and manage time efficiently.</p>` ,
+
+`<h3>Load Boards & Booking</h3>
+<p>Load boards like DAT and Truckstop are platforms where brokers post loads.</p>
+<p>Dispatchers search using filters like pickup, destination, and equipment type.</p>
+<p>A good load has high RPM (rate per mile) and low deadhead miles.</p>
+<p>To book a load, you call the broker using tools like Google Voice or RingCentral.</p>
+<p>Always confirm rate, miles, and delivery time before booking.</p>` ,
+
+`<h3>Deadhead & Miles</h3>
+<p>Deadhead refers to empty miles traveled without a load.</p>
+<p>Loaded miles are when the truck is carrying freight.</p>
+<p>Negative deadhead means losing profit due to long empty travel.</p>
+<p>ETA means Estimated Time of Arrival.</p>
+<p>The best load balances high rate and low deadhead.</p>` ,
+
+`<h3>Payments & Invoices</h3>
+<p>After 7 days of work, dispatchers send invoices to carriers.</p>
+<p>The agreed percentage or flat fee is deducted.</p>
+<p>Payments can be made via Zelle, PayPal, or Cash App.</p>
+<p>Always maintain clear records for trust and transparency.</p>` ,
+
+`<h3>Freight Guard & Broker Credit</h3>
+<p>Freight Guard shows complaints or reports about brokers.</p>
+<p>Always check broker credit score before booking loads.</p>
+<p>Negotiate confidently to get better rates.</p>
+<p>A perfect deal balances good rate, safe broker, and good route.</p>` ,
+
+`<h3>Important Documents</h3>
+<p>TONU means Truck Order Not Used (cancellation fee).</p>
+<p>COI is Certificate of Insurance.</p>
+<p>W9 Form is used for tax identification.</p>
+<p>MC Authority proves carrier is authorized.</p>
+<p>Void check is used for payment setup.</p>` ,
+
+`<h3>Truck Types</h3>
+<p>Common types include Reefer, Flatbed, Step Deck, Dry Van, and Box Truck.</p>
+<p>Each has different capacity and RPM rates.</p>
+<p>Choosing the right load depends on truck type.</p>` ,
+
+`<h3>Documents in Delivery</h3>
+<p>POD (Proof of Delivery) confirms shipment delivered.</p>
+<p>BOL (Bill of Lading) contains shipment details.</p>
+<p>Rate Confirmation shows agreed payment.</p>`
 ],
 
-dispatch: [
-`<h3>Chapter 1: Introduction to Dispatch</h3>
-<p>Dispatching is the backbone of the trucking industry. A dispatcher connects drivers with loads and ensures smooth operations.</p>
-<p>Your role includes communication, planning, and problem solving.</p>`,
+sales:[
+`<h3>Introduction to Sales</h3>
+<p>Sales is about solving customer problems and delivering value.</p>
+<p>Trust is the foundation of every successful sale.</p>
+<p>A good salesperson listens more than speaks.</p>
+<p>Understanding the product deeply is essential.</p>
+<p>Consistency and confidence lead to results.</p>` ,
 
-`<h3>Chapter 2: Load Boards (Detailed)</h3>
-<p>Load boards like DAT and Truckstop are platforms where brokers post loads.</p>
-<p>You must filter loads based on location, rate, distance, and equipment type.</p>
-<p>Always check RPM (rate per mile) before booking.</p>
-<p>Never accept low-paying loads without negotiation.</p>`,
+`<h3>Customer Psychology</h3>
+<p>Customers buy emotionally and justify logically.</p>
+<p>Understanding pain points is critical.</p>
+<p>People prefer trust over price.</p>
+<p>Building rapport increases conversion rate.</p>` ,
 
-`<h3>Chapter 3: Broker Communication</h3>
-<p>Communication must be professional and confident.</p>
-<p>Introduce yourself clearly and ask direct questions about the load.</p>
-<p>Example: pickup location, delivery time, rate, and special requirements.</p>`,
+`<h3>Communication Skills</h3>
+<p>Clear and confident communication is key.</p>
+<p>Use simple language and avoid confusion.</p>
+<p>Active listening builds trust.</p>` ,
 
-`<h3>Chapter 4: Rate Negotiation</h3>
-<p>Never accept the first rate. Always negotiate.</p>
-<p>Use market knowledge and confidence.</p>
-<p>Say: \"Can you do better on this rate?\"</p>`,
+`<h3>Cold Calling</h3>
+<p>Cold calling means contacting new prospects.</p>
+<p>A strong opening grabs attention.</p>
+<p>Confidence and tone matter more than script.</p>` ,
 
-`<h3>Chapter 5: Trip Planning</h3>
-<p>Plan routes smartly to save fuel and time.</p>
-<p>Avoid dead miles and delays.</p>
-<p>Use maps and tracking tools.</p>`,
+`<h3>Handling Objections</h3>
+<p>Objections are normal in sales.</p>
+<p>Stay calm and respond logically.</p>
+<p>Common objections include price and trust.</p>` ,
 
-`<h3>Chapter 6: Documentation</h3>
-<p>Important documents include BOL (Bill of Lading) and Rate Confirmation.</p>
-<p>Always verify details before dispatching.</p>`,
+`<h3>Closing Techniques</h3>
+<p>Closing is finalizing the deal.</p>
+<p>Create urgency and clarity.</p>
+<p>Guide the customer toward decision.</p>` ,
 
-`<h3>Chapter 7: Problem Handling</h3>
-<p>Issues like delays, breakdowns, and cancellations are common.</p>
-<p>Stay calm and solve problems quickly.</p>
-<p>Always inform broker and driver.</p>`
+`<h3>Follow Up</h3>
+<p>Most sales happen after follow-ups.</p>
+<p>Stay consistent and professional.</p>` ,
+
+`<h3>Professional Growth</h3>
+<p>Practice improves sales skills.</p>
+<p>Track performance and improve daily.</p>`
 ]
-};
-
-const quizData={
-sales:[{q:"Sales means?",o:["Solve problems","Force","Ignore"],a:0}],
-dispatch:[{q:"Dispatch means?",o:["Manage trucks","Cook","Game"],a:0}]
 };
 
 let currentCourse="";
 let index=0;
-let progress=0;
 
-function loginUser(){
-login.classList.add('hidden');
+function login(){
+loginPage.classList.add('hidden');
 dashboard.classList.remove('hidden');
 }
 
 function startCourse(type){
 currentCourse=type;
 index=0;
-progress=0;
 dashboard.classList.add('hidden');
-course.classList.remove('hidden');
+coursePage.classList.remove('hidden');
 sidebar.classList.remove('hidden');
-title.innerText=type.toUpperCase()+" COURSE";
 renderSidebar();
 loadChapter();
 }
@@ -151,15 +179,15 @@ loadChapter();
 function renderSidebar(){
 let html="";
 courses[currentCourse].forEach((c,i)=>{
-html+=`<button onclick='goTo(${i})'>Chapter ${i+1}</button>`;
+html+=`<button onclick='goTo(${i})'>Module ${i+1}</button>`;
 });
 chapterList.innerHTML=html;
 }
 
 function loadChapter(){
 content.innerHTML=courses[currentCourse][index];
-progress=(index+1)/courses[currentCourse].length*100;
-bar.style.width=progress+"%";
+title.innerText=currentCourse.toUpperCase()+" (Module "+(index+1)+")";
+bar.style.width=((index+1)/courses[currentCourse].length*100)+"%";
 }
 
 function nextChapter(){
@@ -168,29 +196,16 @@ if(index<courses[currentCourse].length-1){index++;loadChapter();}
 
 function goTo(i){index=i;loadChapter();}
 
-function goDashboard(){
+function backToDashboard(){
 sidebar.classList.add('hidden');
-course.classList.add('hidden');
+coursePage.classList.add('hidden');
 dashboard.classList.remove('hidden');
 }
 
 function startQuiz(){
-course.classList.add('hidden');
-quiz.classList.remove('hidden');
-let html="";
-quizData[currentCourse].forEach((q,i)=>{
-html+=`<p>${q.q}</p>`;
-q.o.forEach((opt,j)=>{
-html+=`<label><input type='radio' name='q${i}' value='${j}'> ${opt}</label><br>`;
-});
-});
-qbox.innerHTML=html;
-}
-
-function submitQuiz(){
-certificate.classList.remove('hidden');
-quiz.classList.add('hidden');
-certText.innerText="Congratulations! You completed the course.";
+coursePage.classList.add('hidden');
+quizPage.classList.remove('hidden');
+quizBox.innerHTML="<p>Quiz coming soon (you can expand this next)</p>";
 }
 
 </script>
