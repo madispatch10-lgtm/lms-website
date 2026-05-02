@@ -121,18 +121,25 @@ document.getElementById('questions').innerHTML = html;
 document.getElementById('attempts').innerText = "Attempts: " + attemptsLeft;
 };
 
-window.submitQuiz = async function(){
+window.submitQuiz = async function () {
 let correct = true;
 
-currentQuestions.forEach((q,i)=>{
-const ans = (document.getElementById('q'+i).value || "").trim().toLowerCase();
-if(ans !== q.a) correct = false;
+currentQuestions.forEach((q, i) => {
+const el = document.getElementById('q' + i);
+
+if (!el) correct = false;
+
+const ans = (el.value || "").trim().toLowerCase();
+
+if (ans.indexOf(q.a) === -1) {
+correct = false;
+}
 });
 
-if(correct){
+if (correct) {
 const track = document.getElementById('track').value;
 
-if(currentUser){
+if (currentUser) {
 await setDoc(doc(db, "users", currentUser.uid), {
 course: track,
 completed: true
@@ -147,10 +154,12 @@ track === 'sales'
 ? '<li>Cold calling</li><li>Closing</li>'
 : '<li>Load booking</li><li>Negotiation</li>';
 
+alert("Passed 🎉");
 } else {
 attemptsLeft--;
-if(attemptsLeft <= 0){
-alert("Failed");
+
+if (attemptsLeft <= 0) {
+alert("Failed ❌");
 location.reload();
 } else {
 document.getElementById('attempts').innerText =
@@ -158,7 +167,3 @@ document.getElementById('attempts').innerText =
 }
 }
 };
-</script>
-
-</body>
-</html>
