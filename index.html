@@ -1,52 +1,62 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>LMS Pro Chapters</title>
+<title>Ultimate LMS</title>
 <style>
-body{font-family:Arial;background:#0b1220;color:white;margin:0;}
-.header{background:#111827;padding:15px;text-align:center;font-size:22px;}
-.container{max-width:900px;margin:auto;padding:20px;}
-.card{background:#111827;padding:25px;border-radius:12px;margin-top:20px;line-height:1.7;}
-button{padding:12px;margin:8px 0;border:none;border-radius:8px;background:#3b82f6;color:white;cursor:pointer;width:100%;}
-button:hover{background:#2563eb;}
-.hidden{display:none;}
-.question{background:#1f2937;padding:12px;margin:10px 0;border-radius:8px;}
-.navBtns{display:flex;gap:10px;}
+body{margin:0;font-family:Arial;background:#0b1220;color:white;display:flex}
+.sidebar{width:250px;background:#111827;height:100vh;padding:20px;overflow:auto}
+.sidebar h3{margin-top:0}
+.sidebar button{width:100%;margin:5px 0;padding:10px;border:none;border-radius:6px;background:#1f2937;color:white;cursor:pointer}
+.sidebar button:hover{background:#374151}
+.main{flex:1;padding:20px}
+.card{background:#111827;padding:20px;border-radius:10px}
+button.primary{background:#3b82f6;margin-top:15px}
+button.primary:hover{background:#2563eb}
+.hidden{display:none}
+.progress{height:8px;background:#1f2937;border-radius:10px;margin:10px 0}
+.bar{height:100%;width:0%;background:#22c55e;border-radius:10px}
 </style>
 </head>
 <body>
 
-<div class="header">🚀 LMS Pro Advanced</div>
+<div class="sidebar hidden" id="sidebar">
+<h3>Chapters</h3>
+<div id="chapterList"></div>
+<button onclick="goDashboard()">⬅ Back</button>
+</div>
 
-<div class="container">
+<div class="main">
 
-<div class="card" id="loginPage">
+<div class="card" id="login">
 <h2>Login</h2>
 <input id="email" placeholder="Email"><br><br>
-<input id="password" type="password" placeholder="Password"><br><br>
-<button onclick="login()">Login</button>
+<input id="pass" type="password" placeholder="Password"><br><br>
+<button class="primary" onclick="loginUser()">Login</button>
 </div>
 
 <div class="card hidden" id="dashboard">
 <h2>Select Course</h2>
-<button onclick="startCourse('sales')">📈 Sales Training</button>
-<button onclick="startCourse('dispatch')">🚚 Dispatch Training</button>
+<button class="primary" onclick="startCourse('sales')">Sales Training</button>
+<button class="primary" onclick="startCourse('dispatch')">Dispatch Training</button>
 </div>
 
-<div class="card hidden" id="coursePage">
-<h2 id="courseTitle"></h2>
-<div id="chapterContent"></div>
-<div class="navBtns">
-<button onclick="prevChapter()">Previous</button>
-<button onclick="nextChapter()">Next</button>
-</div>
-<button onclick="startQuiz()">Take Test</button>
+<div class="card hidden" id="course">
+<h2 id="title"></h2>
+<div class="progress"><div class="bar" id="bar"></div></div>
+<div id="content"></div>
+<button class="primary" onclick="nextChapter()">Next</button>
+<button class="primary" onclick="startQuiz()">Take Test</button>
 </div>
 
-<div class="card hidden" id="quizPage">
+<div class="card hidden" id="quiz">
 <h2>Quiz</h2>
-<div id="questions"></div>
-<button onclick="submitQuiz()">Submit</button>
+<div id="qbox"></div>
+<button class="primary" onclick="submitQuiz()">Submit</button>
+</div>
+
+<div class="card hidden" id="certificate">
+<h2>🎓 Certificate</h2>
+<p id="certText"></p>
 </div>
 
 </div>
@@ -55,99 +65,96 @@ button:hover{background:#2563eb;}
 
 const courses={
 sales:[
-"<h3>Chapter 1: Introduction to Sales</h3><p>Sales is the art of understanding customer needs and offering solutions that create value. A professional salesperson focuses on building trust rather than pushing products.</p><p>Successful salespeople analyze problems, listen carefully, and position their offer as the best solution.</p>",
-"<h3>Chapter 2: Customer Psychology</h3><p>Customers buy based on emotion and justify with logic. Understanding fear, desire, and urgency is critical.</p><p>Always identify pain points and show how your solution removes that pain.</p>",
-"<h3>Chapter 3: Communication Skills</h3><p>Communication is the backbone of sales. Speak clearly, confidently, and avoid complex language.</p><p>Listening is more important than speaking. Ask questions and understand before pitching.</p>",
-"<h3>Chapter 4: Cold Calling</h3><p>Cold calling is reaching out to new prospects. Use a strong opening, introduce yourself quickly, and explain value.</p><p>Confidence and tone matter more than script.</p>",
-"<h3>Chapter 5: Handling Objections</h3><p>Objections are part of the process. Stay calm and respond logically.</p><p>Common objections include price, trust, and timing.</p>",
-"<h3>Chapter 6: Closing Deals</h3><p>Closing is converting a lead into a paying client. Use urgency and clarity.</p><p>Always guide the client toward a decision.</p>",
-"<h
-]
-};
-
-const quiz={
-sales:[
-{q:"Sales is about?",options:["Solving problems","Forcing","Ignoring"],a:0},
-{q:"Cold calling means?",options:["New clients","Old","None"],a:0},
-{q:"Closing means?",options:["Final deal","Start","End"],a:0}
+"<h3>Intro</h3><p>Sales is about solving customer problems and building trust.</p>",
+"<h3>Psychology</h3><p>Understand emotions, pain points, and buying triggers.</p>",
+"<h3>Communication</h3><p>Clear, confident, and focused communication wins deals.</p>",
+"<h3>Cold Calling</h3><p>Reach new clients with strong openings.</p>",
+"<h3>Objections</h3><p>Handle price and trust concerns professionally.</p>",
+"<h3>Closing</h3><p>Convert leads into customers.</p>",
+"<h3>Follow Up</h3><p>Consistency closes deals.</p>"
 ],
 
 dispatch:[
-{q:"Dispatching involves?",options:["Managing trucks","Cooking","Gaming"],a:0},
-{q:"Load boards used for?",options:["Loads","Videos","Chat"],a:0}
+"<h3>Intro</h3><p>Dispatching manages trucks and loads.</p>",
+"<h3>Load Boards</h3><p>Find loads using platforms.</p>",
+"<h3>Communication</h3><p>Deal with brokers professionally.</p>",
+"<h3>Negotiation</h3><p>Maximize profit smartly.</p>",
+"<h3>Planning</h3><p>Optimize routes.</p>"
 ]
 };
 
-let currentCourse="";
-let currentIndex=0;
+const quizData={
+sales:[{q:"Sales means?",o:["Solve problems","Force","Ignore"],a:0}],
+dispatch:[{q:"Dispatch means?",o:["Manage trucks","Cook","Game"],a:0}]
+};
 
-function login(){
-document.getElementById('loginPage').classList.add('hidden');
-document.getElementById('dashboard').classList.remove('hidden');
+let currentCourse="";
+let index=0;
+let progress=0;
+
+function loginUser(){
+login.classList.add('hidden');
+dashboard.classList.remove('hidden');
 }
+
 function startCourse(type){
 currentCourse=type;
-currentIndex=0;
+index=0;
+progress=0;
 dashboard.classList.add('hidden');
-coursePage.classList.remove('hidden');
-courseTitle.innerText=type.toUpperCase()+" COURSE";
+course.classList.remove('hidden');
+sidebar.classList.remove('hidden');
+title.innerText=type.toUpperCase()+" COURSE";
+renderSidebar();
 loadChapter();
 }
 
+function renderSidebar(){
+let html="";
+courses[currentCourse].forEach((c,i)=>{
+html+=`<button onclick='goTo(${i})'>Chapter ${i+1}</button>`;
+});
+chapterList.innerHTML=html;
+}
+
 function loadChapter(){
-chapterContent.innerHTML=courses[currentCourse][currentIndex];
+content.innerHTML=courses[currentCourse][index];
+progress=(index+1)/courses[currentCourse].length*100;
+bar.style.width=progress+"%";
 }
 
 function nextChapter(){
-if(currentIndex<courses[currentCourse].length-1){currentIndex++;loadChapter();}
+if(index<courses[currentCourse].length-1){index++;loadChapter();}
 }
 
-function prevChapter(){
-if(currentIndex>0){currentIndex--;loadChapter();}
+function goTo(i){index=i;loadChapter();}
+
+function goDashboard(){
+sidebar.classList.add('hidden');
+course.classList.add('hidden');
+dashboard.classList.remove('hidden');
 }
 
 function startQuiz(){
-coursePage.classList.add('hidden');
-quizPage.classList.remove('hidden');
+course.classList.add('hidden');
+quiz.classList.remove('hidden');
 let html="";
-quiz[currentCourse].forEach((q,i)=>{
-html+=`<div class="question">${q.q}<br>`;
-q.options.forEach((opt,j)=>{
-html+=`<label><input type="radio" name="q${i}" value="${j}"> ${opt}</label><br>`;
+quizData[currentCourse].forEach((q,i)=>{
+html+=`<p>${q.q}</p>`;
+q.o.forEach((opt,j)=>{
+html+=`<label><input type='radio' name='q${i}' value='${j}'> ${opt}</label><br>`;
 });
-html+=`</div>`;
 });
-questions.innerHTML=html;
+qbox.innerHTML=html;
 }
 
 function submitQuiz(){
-let correct=0;
-quiz[currentCourse].forEach((q,i)=>{
-let ans=document.querySelector(`input[name="q${i}"]:checked`);
-if(ans && parseInt(ans.value)===q.a){correct++;}
-});
-alert("Result: "+correct+" / "+quiz[currentCourse].length);
-location.reload();
+certificate.classList.remove('hidden');
+quiz.classList.add('hidden');
+certText.innerText="Congratulations! You completed the course.";
 }
 
 </script>
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
