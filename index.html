@@ -2,26 +2,27 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Elite LMS Pro</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<title>Ultimate LMS Pro</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
-body{margin:0;font-family:'Poppins',sans-serif;background:linear-gradient(135deg,#1e3a8a,#9333ea);color:#111;display:flex}
-.sidebar{width:260px;background:#111827;color:white;height:100vh;padding:20px;overflow:auto}
-.sidebar button{width:100%;padding:10px;margin:6px 0;border:none;border-radius:6px;background:#1f2937;color:white;cursor:pointer}
-.sidebar button:hover{background:#374151}
+body{margin:0;font-family:'Inter',sans-serif;background:#0f172a;color:white;display:flex}
+.sidebar{width:280px;background:#020617;padding:20px;height:100vh;overflow:auto}
+.sidebar h3{color:#38bdf8}
+.sidebar button{width:100%;padding:12px;margin:6px 0;border:none;border-radius:8px;background:#1e293b;color:white;cursor:pointer;text-align:left}
+.sidebar button:hover{background:#334155}
 .main{flex:1;padding:30px}
-.card{background:white;padding:25px;border-radius:14px;box-shadow:0 6px 20px rgba(0,0,0,0.15)}
-button.primary{background:#22c55e;color:white;border:none;padding:12px;border-radius:8px;margin-top:15px;cursor:pointer}
-button.primary:hover{background:#16a34a}
+.card{background:#020617;padding:25px;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,0.4)}
+button.primary{background:#38bdf8;color:black;border:none;padding:12px;border-radius:8px;margin-top:15px;cursor:pointer;font-weight:bold}
+button.primary:hover{background:#0ea5e9}
 .hidden{display:none}
-.progress{height:10px;background:#e5e7eb;border-radius:10px;margin:15px 0}
+.progress{height:10px;background:#1e293b;border-radius:10px;margin:15px 0}
 .bar{height:100%;width:0%;background:#22c55e;border-radius:10px}
 </style>
 </head>
 <body>
 
 <div class="sidebar hidden" id="sidebar">
-<h3>Modules</h3>
+<h3>Course Content</h3>
 <div id="chapterList"></div>
 <button onclick="backToDashboard()">⬅ Back</button>
 </div>
@@ -63,41 +64,138 @@ const courses={
 
 sales:[
 `<h3>Introduction to Sales</h3>
-<p>Sales is the process of understanding customer needs and offering solutions that solve real problems. A professional salesperson does not push products but builds trust and value.</p>
-<p>To succeed in sales, you must understand your product, your market, and your customer deeply.</p>
-<p>Confidence, consistency, and communication are key skills.</p>
-<p>Always focus on helping the customer instead of forcing a deal.</p>
-<p>Sales is not luck; it is a skill developed through practice.</p>`,
+<p>Sales is a professional skill that involves understanding customer needs and offering solutions. A good salesperson builds trust first before selling anything.</p>
+<p>Sales is not about forcing products but about solving real problems.</p>
+<p>Confidence and communication are key elements.</p>
+<p>Understanding your product deeply increases your success rate.</p>
+<p>Consistency in follow-up leads to better conversions.</p>
+<p>Professional behavior builds long-term clients.</p>
+<p>Listening is more important than speaking in sales.</p>
+<p>Always focus on value rather than price.</p>
+<p>Building relationships is more important than one-time sales.</p>` ,
 
 `<h3>Customer Psychology</h3>
-<p>Customers make decisions emotionally and justify them logically. Understanding this behavior is essential.</p>
-<p>Fear of loss, desire for gain, and trust influence decisions.</p>
-<p>Good salespeople identify pain points and offer clear solutions.</p>
-<p>Building rapport increases conversion chances.</p>
-<p>Always listen before speaking.</p>`,
+<p>Customers make decisions emotionally and justify them logically.</p>
+<p>Understanding pain points is essential to close deals.</p>
+<p>People buy solutions, not products.</p>
+<p>Trust plays a major role in buying decisions.</p>
+<p>Building rapport increases success rate.</p>
+<p>Fear of missing out can influence decisions.</p>
+<p>Confidence builds trust instantly.</p>
+<p>Clear communication avoids confusion.</p>
+<p>Always ask questions to understand the client.</p>` ,
 
 `<h3>Cold Calling</h3>
-<p>Cold calling means reaching out to potential clients who do not know you.</p>
-<p>A strong opening is critical to grab attention.</p>
-<p>Keep your message clear and valuable.</p>
-<p>Confidence in voice creates trust.</p>
-<p>Practice scripts but sound natural.</p>`
+<p>Cold calling is reaching out to new clients who are not aware of your service.</p>
+<p>A strong opening line is critical.</p>
+<p>Confidence in voice creates impact.</p>
+<p>Keep conversation short and valuable.</p>
+<p>Practice scripts but stay natural.</p>
+<p>Handle rejection professionally.</p>
+<p>Consistency improves results.</p>
+<p>Track your calls for improvement.</p>
+<p>Stay polite and professional always.</p>` ,
+
+`<h3>Handling Objections</h3>
+<p>Objections are a normal part of sales.</p>
+<p>Common objections include price, trust, and timing.</p>
+<p>Stay calm and respond logically.</p>
+<p>Understand the concern before replying.</p>
+<p>Use examples to build confidence.</p>
+<p>Never argue with the customer.</p>
+<p>Turn objections into opportunities.</p>
+<p>Confidence is key in handling objections.</p>
+<p>Practice improves objection handling.</p>` ,
+
+`<h3>Closing Techniques</h3>
+<p>Closing is converting a lead into a paying client.</p>
+<p>Use urgency to finalize deals.</p>
+<p>Guide the customer to make decisions.</p>
+<p>Be confident while asking for the sale.</p>
+<p>Offer clear next steps.</p>
+<p>Keep process simple.</p>
+<p>Follow up if needed.</p>
+<p>Strong closing increases revenue.</p>
+<p>Practice different closing methods.</p>` ,
+
+`<h3>Follow Up</h3>
+<p>Most deals close after follow-ups.</p>
+<p>Stay in contact with potential clients.</p>
+<p>Remind them of value.</p>
+<p>Be professional and consistent.</p>
+<p>Timing matters in follow-ups.</p>
+<p>Do not spam the client.</p>
+<p>Build long-term relationships.</p>
+<p>Keep records of communication.</p>
+<p>Follow-up is key to success.</p>`
 ],
 
 dispatch:[
 `<h3>Introduction to Dispatch</h3>
-<p>Dispatching is managing trucks, loads, and drivers in the logistics industry. A dispatcher connects brokers and carriers.</p>
-<p>Carriers own trucks, brokers provide loads, shippers send goods, and receivers accept them.</p>
-<p>A dispatcher ensures smooth operations and good profit.</p>
-<p>Strong communication and planning are required.</p>
-<p>This role requires focus and decision-making.</p>`,
+<p>Dispatching is managing trucks, drivers, and loads efficiently.</p>
+<p>It connects brokers and carriers.</p>
+<p>Shippers send goods and receivers accept them.</p>
+<p>A dispatcher ensures smooth operations.</p>
+<p>Strong communication is required.</p>
+<p>Planning routes is important.</p>
+<p>Managing time is critical.</p>
+<p>Profit depends on good decisions.</p>
+<p>This role requires focus and consistency.</p>` ,
 
 `<h3>Load Boards</h3>
-<p>Load boards like DAT are used to find loads.</p>
-<p>Filter loads by location, type, and rate.</p>
-<p>Always calculate RPM (rate per mile).</p>
-<p>Call brokers professionally to book loads.</p>
-<p>Confirm all details before dispatching.</p>`
+<p>Load boards are platforms where brokers post loads.</p>
+<p>Examples include DAT and Truckstop.</p>
+<p>Filter loads by location and type.</p>
+<p>Check RPM before booking.</p>
+<p>Call brokers to confirm details.</p>
+<p>Always negotiate rates.</p>
+<p>Track load history.</p>
+<p>Choose profitable loads.</p>
+<p>Avoid low-paying loads.</p>` ,
+
+`<h3>Deadhead & Miles</h3>
+<p>Deadhead is empty miles without load.</p>
+<p>Loaded miles generate profit.</p>
+<p>Reduce deadhead to increase earnings.</p>
+<p>Plan routes efficiently.</p>
+<p>ETA means Estimated Time of Arrival.</p>
+<p>Balance distance and rate.</p>
+<p>Good planning saves fuel.</p>
+<p>Smart dispatching increases profit.</p>
+<p>Avoid long empty trips.</p>` ,
+
+`<h3>Broker & Negotiation</h3>
+<p>Brokers provide loads to carriers.</p>
+<p>Build strong relationships with brokers.</p>
+<p>Negotiate rates confidently.</p>
+<p>Check broker credit before booking.</p>
+<p>Avoid risky brokers.</p>
+<p>Communication is key.</p>
+<p>Always confirm details.</p>
+<p>Professional behavior builds trust.</p>
+<p>Strong negotiation increases profit.</p>` ,
+
+`<h3>Documents</h3>
+<p>BOL contains shipment details.</p>
+<p>POD confirms delivery.</p>
+<p>Rate confirmation shows payment.</p>
+<p>W9 is for tax details.</p>
+<p>COI is insurance proof.</p>
+<p>MC authority is license.</p>
+<p>TONU is cancellation fee.</p>
+<p>Documents are very important.</p>
+<p>Always verify before dispatch.</p>` ,
+
+`<h3>Truck Types</h3>
+<p>Dry van is common for general freight.</p>
+<p>Reefer is temperature controlled.</p>
+<p>Flatbed carries heavy loads.</p>
+<p>Step deck for tall cargo.</p>
+<p>Box trucks for small loads.</p>
+<p>Each type has different RPM.</p>
+<p>Choose load based on truck.</p>
+<p>Understand specifications.</p>
+<p>Right choice increases profit.</p>`
 ]
 };
 
@@ -105,12 +203,17 @@ const quizData={
 sales:[
 {q:"Sales is about?",o:["Solving problems","Forcing","Ignoring"],a:0},
 {q:"Customers buy based on?",o:["Emotion","Nothing","Random"],a:0},
-{q:"Cold calling means?",o:["New clients","Old","None"],a:0}
+{q:"Cold calling means?",o:["New clients","Old","None"],a:0},
+{q:"Closing means?",o:["Final deal","Start","Stop"],a:0},
+{q:"Follow-up is?",o:["Important","Useless","Optional"],a:0}
 ],
 
 dispatch:[
-{q:"Dispatch connects?",o:["Broker & carrier","Shop & home","None"],a:0},
-{q:"RPM means?",o:["Rate per mile","Speed","Fuel"],a:0}
+{q:"Dispatch connects?",o:["Broker & carrier","Shop","None"],a:0},
+{q:"RPM means?",o:["Rate per mile","Speed","Fuel"],a:0},
+{q:"Deadhead means?",o:["Empty miles","Loaded","None"],a:0},
+{q:"BOL is?",o:["Document","Truck","Fuel"],a:0},
+{q:"Reefer is?",o:["Cold truck","Flat","None"],a:0}
 ]
 };
 
@@ -119,49 +222,19 @@ let index=0;
 
 function login(){loginPage.classList.add('hidden');dashboard.classList.remove('hidden');}
 
-function startCourse(type){
-currentCourse=type;index=0;
-dashboard.classList.add('hidden');coursePage.classList.remove('hidden');sidebar.classList.remove('hidden');
-renderSidebar();loadChapter();
-}
+function startCourse(type){currentCourse=type;index=0;dashboard.classList.add('hidden');coursePage.classList.remove('hidden');sidebar.classList.remove('hidden');renderSidebar();loadChapter();}
 
-function renderSidebar(){
-let html="";
-courses[currentCourse].forEach((c,i)=>{
-html+=`<button onclick='goTo(${i})'>Module ${i+1}</button>`;
-});
-chapterList.innerHTML=html;
-}
+function renderSidebar(){let html="";courses[currentCourse].forEach((c,i)=>{html+=`<button onclick='goTo(${i})'>Module ${i+1}</button>`;});chapterList.innerHTML=html;}
 
-function loadChapter(){
-content.innerHTML=courses[currentCourse][index];
-title.innerText=currentCourse.toUpperCase()+" Module "+(index+1);
-bar.style.width=((index+1)/courses[currentCourse].length*100)+"%";
-}
+function loadChapter(){content.innerHTML=courses[currentCourse][index];title.innerText=currentCourse.toUpperCase()+" Module "+(index+1);bar.style.width=((index+1)/courses[currentCourse].length*100)+"%";}
 
 function nextChapter(){if(index<courses[currentCourse].length-1){index++;loadChapter();}}
 function goTo(i){index=i;loadChapter();}
 function backToDashboard(){sidebar.classList.add('hidden');coursePage.classList.add('hidden');dashboard.classList.remove('hidden');}
 
-function startQuiz(){
-coursePage.classList.add('hidden');quizPage.classList.remove('hidden');
-let html="";
-quizData[currentCourse].forEach((q,i)=>{
-html+=`<p>${q.q}</p>`;
-q.o.forEach((opt,j)=>{html+=`<label><input type='radio' name='q${i}' value='${j}'> ${opt}</label><br>`;});
-});
-quizBox.innerHTML=html;
-}
+function startQuiz(){coursePage.classList.add('hidden');quizPage.classList.remove('hidden');let html="";quizData[currentCourse].forEach((q,i)=>{html+=`<p>${q.q}</p>`;q.o.forEach((opt,j)=>{html+=`<label><input type='radio' name='q${i}' value='${j}'> ${opt}</label><br>`;});});quizBox.innerHTML=html;}
 
-function submitQuiz(){
-let score=0;
-quizData[currentCourse].forEach((q,i)=>{
-let ans=document.querySelector(`input[name="q${i}"]:checked`);
-if(ans && parseInt(ans.value)===q.a){score++;}
-});
-alert("Score: "+score+"/"+quizData[currentCourse].length);
-location.reload();
-}
+function submitQuiz(){let score=0;quizData[currentCourse].forEach((q,i)=>{let ans=document.querySelector(`input[name="q${i}"]:checked`);if(ans && parseInt(ans.value)===q.a){score++;}});alert("Score: "+score+"/"+quizData[currentCourse].length);location.reload();}
 
 </script>
 
