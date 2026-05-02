@@ -2,239 +2,134 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Ultimate LMS Pro</title>
+<title>Elite LMS System</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
-body{margin:0;font-family:'Inter',sans-serif;background:#0f172a;color:white;display:flex}
-.sidebar{width:280px;background:#020617;padding:20px;height:100vh;overflow:auto}
-.sidebar h3{color:#38bdf8}
-.sidebar button{width:100%;padding:12px;margin:6px 0;border:none;border-radius:8px;background:#1e293b;color:white;cursor:pointer;text-align:left}
+body{margin:0;font-family:'Inter',sans-serif;background:#0f172a;color:white}
+.header{background:#020617;padding:15px 30px;font-size:20px;font-weight:600}
+.container{display:flex}
+.sidebar{width:260px;background:#020617;height:calc(100vh - 60px);padding:20px;overflow:auto}
+.sidebar button{width:100%;padding:12px;margin:6px 0;border:none;border-radius:8px;background:#1e293b;color:white;text-align:left;cursor:pointer}
 .sidebar button:hover{background:#334155}
 .main{flex:1;padding:30px}
-.card{background:#020617;padding:25px;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,0.4)}
+.card{background:#020617;padding:25px;border-radius:14px;box-shadow:0 8px 25px rgba(0,0,0,0.4)}
 button.primary{background:#38bdf8;color:black;border:none;padding:12px;border-radius:8px;margin-top:15px;cursor:pointer;font-weight:bold}
 button.primary:hover{background:#0ea5e9}
 .hidden{display:none}
-.progress{height:10px;background:#1e293b;border-radius:10px;margin:15px 0}
-.bar{height:100%;width:0%;background:#22c55e;border-radius:10px}
 </style>
 </head>
 <body>
 
-<div class="sidebar hidden" id="sidebar">
-<h3>Course Content</h3>
-<div id="chapterList"></div>
-<button onclick="backToDashboard()">⬅ Back</button>
+<div class="header">🚀 Elite LMS Professional</div>
+
+<div id="loginPage" class="main">
+<div class="card">
+<h2>Login</h2>
+<input placeholder="Email" style="width:100%;padding:10px;margin:8px 0">
+<input type="password" placeholder="Password" style="width:100%;padding:10px;margin:8px 0">
+<button class="primary" onclick="enterApp()">Login</button>
+</div>
+</div>
+
+<div id="app" class="hidden">
+<div class="container">
+
+<div class="sidebar">
+<h3>Modules</h3>
+<div id="modules"></div>
+<button onclick="backHome()">⬅ Back</button>
 </div>
 
 <div class="main">
-
-<div class="card" id="loginPage">
-<h2>Login</h2>
-<input id="email" placeholder="Email" style="width:100%;padding:10px;margin:8px 0">
-<input id="pass" type="password" placeholder="Password" style="width:100%;padding:10px;margin:8px 0">
-<button class="primary" onclick="login()">Login</button>
+<div id="home" class="card">
+<h2>Select Course</h2>
+<button class="primary" onclick="loadCourse('sales')">Sales Training</button>
+<button class="primary" onclick="loadCourse('dispatch')">Dispatch Training</button>
 </div>
 
-<div class="card hidden" id="dashboard">
-<h2>Select Training</h2>
-<button class="primary" onclick="startCourse('sales')">Sales Training</button>
-<button class="primary" onclick="startCourse('dispatch')">Dispatch Training</button>
+<div id="content" class="card hidden"></div>
+<div id="quiz" class="card hidden"></div>
 </div>
 
-<div class="card hidden" id="coursePage">
-<h2 id="title"></h2>
-<div class="progress"><div class="bar" id="bar"></div></div>
-<div id="content"></div>
-<button class="primary" onclick="nextChapter()">Next</button>
-<button class="primary" onclick="startQuiz()">Take Test</button>
 </div>
-
-<div class="card hidden" id="quizPage">
-<h2>Quiz</h2>
-<div id="quizBox"></div>
-<button class="primary" onclick="submitQuiz()">Submit</button>
-</div>
-
 </div>
 
 <script>
 
-const courses={
+const data={
 
 sales:[
-`<h3>Introduction to Sales</h3>
-<p>Sales is a professional skill that involves understanding customer needs and offering solutions. A good salesperson builds trust first before selling anything.</p>
-<p>Sales is not about forcing products but about solving real problems.</p>
-<p>Confidence and communication are key elements.</p>
-<p>Understanding your product deeply increases your success rate.</p>
-<p>Consistency in follow-up leads to better conversions.</p>
-<p>Professional behavior builds long-term clients.</p>
-<p>Listening is more important than speaking in sales.</p>
-<p>Always focus on value rather than price.</p>
-<p>Building relationships is more important than one-time sales.</p>` ,
-
-`<h3>Customer Psychology</h3>
-<p>Customers make decisions emotionally and justify them logically.</p>
-<p>Understanding pain points is essential to close deals.</p>
-<p>People buy solutions, not products.</p>
-<p>Trust plays a major role in buying decisions.</p>
-<p>Building rapport increases success rate.</p>
-<p>Fear of missing out can influence decisions.</p>
-<p>Confidence builds trust instantly.</p>
-<p>Clear communication avoids confusion.</p>
-<p>Always ask questions to understand the client.</p>` ,
-
-`<h3>Cold Calling</h3>
-<p>Cold calling is reaching out to new clients who are not aware of your service.</p>
-<p>A strong opening line is critical.</p>
-<p>Confidence in voice creates impact.</p>
-<p>Keep conversation short and valuable.</p>
-<p>Practice scripts but stay natural.</p>
-<p>Handle rejection professionally.</p>
-<p>Consistency improves results.</p>
-<p>Track your calls for improvement.</p>
-<p>Stay polite and professional always.</p>` ,
-
-`<h3>Handling Objections</h3>
-<p>Objections are a normal part of sales.</p>
-<p>Common objections include price, trust, and timing.</p>
-<p>Stay calm and respond logically.</p>
-<p>Understand the concern before replying.</p>
-<p>Use examples to build confidence.</p>
-<p>Never argue with the customer.</p>
-<p>Turn objections into opportunities.</p>
-<p>Confidence is key in handling objections.</p>
-<p>Practice improves objection handling.</p>` ,
-
-`<h3>Closing Techniques</h3>
-<p>Closing is converting a lead into a paying client.</p>
-<p>Use urgency to finalize deals.</p>
-<p>Guide the customer to make decisions.</p>
-<p>Be confident while asking for the sale.</p>
-<p>Offer clear next steps.</p>
-<p>Keep process simple.</p>
-<p>Follow up if needed.</p>
-<p>Strong closing increases revenue.</p>
-<p>Practice different closing methods.</p>` ,
-
-`<h3>Follow Up</h3>
-<p>Most deals close after follow-ups.</p>
-<p>Stay in contact with potential clients.</p>
-<p>Remind them of value.</p>
-<p>Be professional and consistent.</p>
-<p>Timing matters in follow-ups.</p>
-<p>Do not spam the client.</p>
-<p>Build long-term relationships.</p>
-<p>Keep records of communication.</p>
-<p>Follow-up is key to success.</p>`
+"<h3>Intro to Sales</h3><p>Sales is about solving problems, building trust, and delivering value. A strong salesperson understands customer needs and communicates clearly. Confidence and consistency drive success. Listening is more important than speaking. Always focus on long-term relationships instead of short-term gains. Professionalism increases credibility. A structured process improves results. Follow-ups are critical in closing deals.</p>",
+"<h3>Cold Calling</h3><p>Cold calling is reaching new clients. A strong opening is essential. Keep your message clear and short. Confidence builds trust. Always respect the client’s time. Handle rejection professionally. Practice daily. Track performance. Improve scripts continuously.</p>",
+"<h3>Closing</h3><p>Closing means finalizing a deal. Use urgency and clarity. Guide the customer. Remove confusion. Be confident when asking for sale. Offer next steps. Keep it simple. Follow up if needed. Strong closing increases revenue.</p>"
 ],
 
 dispatch:[
-`<h3>Introduction to Dispatch</h3>
-<p>Dispatching is managing trucks, drivers, and loads efficiently.</p>
-<p>It connects brokers and carriers.</p>
-<p>Shippers send goods and receivers accept them.</p>
-<p>A dispatcher ensures smooth operations.</p>
-<p>Strong communication is required.</p>
-<p>Planning routes is important.</p>
-<p>Managing time is critical.</p>
-<p>Profit depends on good decisions.</p>
-<p>This role requires focus and consistency.</p>` ,
-
-`<h3>Load Boards</h3>
-<p>Load boards are platforms where brokers post loads.</p>
-<p>Examples include DAT and Truckstop.</p>
-<p>Filter loads by location and type.</p>
-<p>Check RPM before booking.</p>
-<p>Call brokers to confirm details.</p>
-<p>Always negotiate rates.</p>
-<p>Track load history.</p>
-<p>Choose profitable loads.</p>
-<p>Avoid low-paying loads.</p>` ,
-
-`<h3>Deadhead & Miles</h3>
-<p>Deadhead is empty miles without load.</p>
-<p>Loaded miles generate profit.</p>
-<p>Reduce deadhead to increase earnings.</p>
-<p>Plan routes efficiently.</p>
-<p>ETA means Estimated Time of Arrival.</p>
-<p>Balance distance and rate.</p>
-<p>Good planning saves fuel.</p>
-<p>Smart dispatching increases profit.</p>
-<p>Avoid long empty trips.</p>` ,
-
-`<h3>Broker & Negotiation</h3>
-<p>Brokers provide loads to carriers.</p>
-<p>Build strong relationships with brokers.</p>
-<p>Negotiate rates confidently.</p>
-<p>Check broker credit before booking.</p>
-<p>Avoid risky brokers.</p>
-<p>Communication is key.</p>
-<p>Always confirm details.</p>
-<p>Professional behavior builds trust.</p>
-<p>Strong negotiation increases profit.</p>` ,
-
-`<h3>Documents</h3>
-<p>BOL contains shipment details.</p>
-<p>POD confirms delivery.</p>
-<p>Rate confirmation shows payment.</p>
-<p>W9 is for tax details.</p>
-<p>COI is insurance proof.</p>
-<p>MC authority is license.</p>
-<p>TONU is cancellation fee.</p>
-<p>Documents are very important.</p>
-<p>Always verify before dispatch.</p>` ,
-
-`<h3>Truck Types</h3>
-<p>Dry van is common for general freight.</p>
-<p>Reefer is temperature controlled.</p>
-<p>Flatbed carries heavy loads.</p>
-<p>Step deck for tall cargo.</p>
-<p>Box trucks for small loads.</p>
-<p>Each type has different RPM.</p>
-<p>Choose load based on truck.</p>
-<p>Understand specifications.</p>
-<p>Right choice increases profit.</p>`
+"<h3>Intro Dispatch</h3><p>Dispatching connects brokers and carriers. It manages loads, routes, and drivers. Strong communication is required. Planning reduces deadhead. Good decisions increase profit. Always track loads. Maintain records. Build broker relationships.</p>",
+"<h3>Load Boards</h3><p>Load boards like DAT help find loads. Filter properly. Check RPM. Call brokers professionally. Confirm all details. Negotiate rates. Avoid bad brokers. Choose profitable loads.</p>",
+"<h3>Documents</h3><p>BOL, POD, Rate Confirmation are essential. W9 and COI verify identity. MC authority is license. TONU is cancellation fee. Always verify documents before dispatching.</p>"
 ]
 };
 
-const quizData={
+const quizzes={
 sales:[
-{q:"Sales is about?",o:["Solving problems","Forcing","Ignoring"],a:0},
-{q:"Customers buy based on?",o:["Emotion","Nothing","Random"],a:0},
-{q:"Cold calling means?",o:["New clients","Old","None"],a:0},
-{q:"Closing means?",o:["Final deal","Start","Stop"],a:0},
-{q:"Follow-up is?",o:["Important","Useless","Optional"],a:0}
+{q:"Sales is about?",o:["Value","Force","Ignore"],a:0},
+{q:"Cold calling means?",o:["New clients","Old","None"],a:0}
 ],
 
 dispatch:[
-{q:"Dispatch connects?",o:["Broker & carrier","Shop","None"],a:0},
-{q:"RPM means?",o:["Rate per mile","Speed","Fuel"],a:0},
-{q:"Deadhead means?",o:["Empty miles","Loaded","None"],a:0},
-{q:"BOL is?",o:["Document","Truck","Fuel"],a:0},
-{q:"Reefer is?",o:["Cold truck","Flat","None"],a:0}
+{q:"Dispatch connects?",o:["Broker & carrier","None","Shop"],a:0},
+{q:"RPM means?",o:["Rate per mile","Fuel","Speed"],a:0}
 ]
 };
 
-let currentCourse="";
-let index=0;
+let current="";
+let i=0;
 
-function login(){loginPage.classList.add('hidden');dashboard.classList.remove('hidden');}
+function enterApp(){loginPage.style.display='none';app.classList.remove('hidden');}
 
-function startCourse(type){currentCourse=type;index=0;dashboard.classList.add('hidden');coursePage.classList.remove('hidden');sidebar.classList.remove('hidden');renderSidebar();loadChapter();}
+function loadCourse(type){
+current=type;i=0;
+home.classList.add('hidden');
+content.classList.remove('hidden');
+renderModules();
+showContent();
+}
 
-function renderSidebar(){let html="";courses[currentCourse].forEach((c,i)=>{html+=`<button onclick='goTo(${i})'>Module ${i+1}</button>`;});chapterList.innerHTML=html;}
+function renderModules(){
+let html="";
+data[current].forEach((_,index)=>{
+html+=`<button onclick='go(${index})'>Module ${index+1}</button>`;
+});
+html+=`<button onclick='startQuiz()'>Take Test</button>`;
+modules.innerHTML=html;
+}
 
-function loadChapter(){content.innerHTML=courses[currentCourse][index];title.innerText=currentCourse.toUpperCase()+" Module "+(index+1);bar.style.width=((index+1)/courses[currentCourse].length*100)+"%";}
+function showContent(){content.innerHTML=data[current][i];}
+function go(index){i=index;showContent();}
 
-function nextChapter(){if(index<courses[currentCourse].length-1){index++;loadChapter();}}
-function goTo(i){index=i;loadChapter();}
-function backToDashboard(){sidebar.classList.add('hidden');coursePage.classList.add('hidden');dashboard.classList.remove('hidden');}
+function startQuiz(){
+content.classList.add('hidden');
+quiz.classList.remove('hidden');
+let html="";
+quizzes[current].forEach((q,idx)=>{
+html+=`<p>${q.q}</p>`;
+q.o.forEach((opt,j)=>{html+=`<label><input type='radio' name='q${idx}' value='${j}'> ${opt}</label><br>`});
+});
+quiz.innerHTML=html+"<br><button class='primary' onclick='submitQuiz()'>Submit</button>";
+}
 
-function startQuiz(){coursePage.classList.add('hidden');quizPage.classList.remove('hidden');let html="";quizData[currentCourse].forEach((q,i)=>{html+=`<p>${q.q}</p>`;q.o.forEach((opt,j)=>{html+=`<label><input type='radio' name='q${i}' value='${j}'> ${opt}</label><br>`;});});quizBox.innerHTML=html;}
+function submitQuiz(){
+let score=0;
+quizzes[current].forEach((q,idx)=>{
+let ans=document.querySelector(`input[name=q${idx}]:checked`);
+if(ans && ans.value==q.a)score++;
+});
+alert("Score: "+score);
+location.reload();
+}
 
-function submitQuiz(){let score=0;quizData[currentCourse].forEach((q,i)=>{let ans=document.querySelector(`input[name="q${i}"]:checked`);if(ans && parseInt(ans.value)===q.a){score++;}});alert("Score: "+score+"/"+quizData[currentCourse].length);location.reload();}
+function backHome(){location.reload();}
 
 </script>
 
