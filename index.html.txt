@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Pro LMS</title>
+<style>
+body { font-family: Arial; background:#eef2f7; text-align:center; }
+.box { background:white; padding:25px; margin:40px auto; width:450px; border-radius:12px; box-shadow:0 5px 15px rgba(0,0,0,0.1);} 
+input, button, select { padding:10px; margin:8px; width:90%; }
+.hidden { display:none; }
+.question { text-align:left; margin:10px 0; }
+</style>
+</head>
+<body>
+
+<div class="box" id="loginBox">
+<h2>Login / Register</h2>
+<input type="email" id="email" placeholder="Email">
+<input type="password" id="password" placeholder="Password">
+<button onclick="register()">Register</button>
+<button onclick="login()">Login</button>
+</div>
+
+<div class="box hidden" id="dashboardBox">
+<h2>Dashboard</h2>
+<select id="track">
+<option value="sales">Sales</option>
+<option value="dispatch">Dispatch</option>
+</select>
+<button onclick="startQuiz()">Start Quiz</button>
+<button onclick="logout()">Logout</button>
+</div>
+
+<div class="box hidden" id="quizBox">
+<h2 id="quizTitle"></h2>
+<div id="questions"></div>
+<button onclick="submitQuiz()">Submit</button>
+<p id="attempts"></p>
+</div>
+
+<div class="box hidden" id="courseBox">
+<h2>Course Unlocked</h2>
+<ul id="courseContent" style="text-align:left"></ul>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+let attemptsLeft = 3;
+let currentUser = null;
+let currentQuestions = [];
+
+const salesQuiz = [
+  {q:"What is cold calling?", a:"calling"},
+  {q:"What is lead generation?", a:"lead"},
+  {q:"What is closing?", a:"closing"}
+];
+
+const dispatchQuiz = [
+  {q:"What is load booking?", a:"load"},
+  {q:"What is broker?", a:"broker"},
+  {q:"What is rate?", a:"rate"}
+];
+
+window.register = async function(){
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
+  try {
+    await createUserWithEmailAndPassword(auth, email, password);
+    alert("Registered");
+  } catch(e){ alert(e.message); }
+};
+
+window.login = async function(){
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
+  try {
+    const res = await signInWithEmailAndPassword(auth, email, password);
+    currentUser = res.user;
+    document.getElementById('loginBox').classList.add('hidden');
+    document.getElementById('dashboardBox').classList.remove('hidden');
+  } catch(e){ alert(e.message); }
+};
+
+window.logout = async function(){
+  await signOut(auth);
+  location.reload();
+};
+
+window.startQuiz = function(){
+  attemptsLeft = 3;
+  const track = document.getElementById('track').value;
+
+  document.getElementById('dashboardBox').classList.add('hidden');
+  document.getElementById('quizBox').classList.remove('hidden');
+
+  currentQuestions = track === 'sales' ? salesQuiz : dispatchQuiz;
+
+  document.getElementById('quizTitle').innerText = track.toUpperCase() + " QUIZ";
+
+  let html = "";
+  currentQuestions.forEach((q,i)=>{
+    html += `<div class='question'>${i+1}. ${q.q}<br><input id='q${i}'></div>`;
+  });
+
+  document.getElementById('questions').innerHTML = html;
+  document.getElementById('attempts').innerText = "Attempts: " + attemptsLeft;
+};
+
+window.submitQuiz = async function(){
+  let correct = true;
+
+  currentQuestions.forEach((q,i)=>{
+    const ans = document.getElementById('q'+i).value.toLowerCase();
+    if(!ans.includes(q.a)) correct = false;
+  });
+
+  if(correct){
+    const track = document.getElementById('track').value;
+
+    if(currentUser){
+      await setDoc(doc(db, "users", currentUser.uid), {
+        course: track,
+        completed: true
+      });
+    }
+
+    document.getElementById('quizBox').classList.add('hidden');
+    document.getElementById('courseBox').classList.remove('hidden');
+
+    document.getElementById('courseContent').innerHTML = track === 'sales'
+      ? '<li>Cold calling</li><li>Closing</li>'
+      : '<li>Load booking</li><li>Negotiation</li>';
+
+  } else {
+    attemptsLeft--;
+    if(attemptsLeft <= 0){
+      alert("Failed");
+      location.reload();
+    } else {
+      document.getElementById('attempts').innerText = "Wrong! Attempts: " + attemptsLeft;
+    }
+  }
+};
+</script>
+
+</body>
+</html>
