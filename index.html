@@ -10,9 +10,20 @@ body{margin:0;font-family:Arial;background:#0b1220;color:white;display:flex}
 .sidebar button:hover{background:#374151}
 .main{flex:1;padding:20px}
 .card{background:#111827;padding:20px;border-radius:10px}
-button.primary{background:#3b82f6;margin-top:15px}
-button.primary:hover{background:#2563eb}
-.hidden{display:none}
+CSS mein add karo:
+
+button.primary{
+background:#3b82f6;
+border:none;
+padding:12px;
+border-radius:8px;
+color:white;
+font-weight:bold;
+}
+
+button.primary:hover{
+background:#2563eb;
+}
 .progress{height:8px;background:#1f2937;border-radius:10px;margin:10px 0}
 .bar{height:100%;width:0%;background:#22c55e;border-radius:10px}
 </style>
@@ -74,12 +85,40 @@ sales:[
 "<h3>Follow Up</h3><p>Consistency closes deals.</p>"
 ],
 
-dispatch:[
-"<h3>Intro</h3><p>Dispatching manages trucks and loads.</p>",
-"<h3>Load Boards</h3><p>Find loads using platforms.</p>",
-"<h3>Communication</h3><p>Deal with brokers professionally.</p>",
-"<h3>Negotiation</h3><p>Maximize profit smartly.</p>",
-"<h3>Planning</h3><p>Optimize routes.</p>"
+dispatch: [
+`<h3>Chapter 1: Introduction to Dispatch</h3>
+<p>Dispatching is the backbone of the trucking industry. A dispatcher connects drivers with loads and ensures smooth operations.</p>
+<p>Your role includes communication, planning, and problem solving.</p>`,
+
+`<h3>Chapter 2: Load Boards (Detailed)</h3>
+<p>Load boards like DAT and Truckstop are platforms where brokers post loads.</p>
+<p>You must filter loads based on location, rate, distance, and equipment type.</p>
+<p>Always check RPM (rate per mile) before booking.</p>
+<p>Never accept low-paying loads without negotiation.</p>`,
+
+`<h3>Chapter 3: Broker Communication</h3>
+<p>Communication must be professional and confident.</p>
+<p>Introduce yourself clearly and ask direct questions about the load.</p>
+<p>Example: pickup location, delivery time, rate, and special requirements.</p>`,
+
+`<h3>Chapter 4: Rate Negotiation</h3>
+<p>Never accept the first rate. Always negotiate.</p>
+<p>Use market knowledge and confidence.</p>
+<p>Say: \"Can you do better on this rate?\"</p>`,
+
+`<h3>Chapter 5: Trip Planning</h3>
+<p>Plan routes smartly to save fuel and time.</p>
+<p>Avoid dead miles and delays.</p>
+<p>Use maps and tracking tools.</p>`,
+
+`<h3>Chapter 6: Documentation</h3>
+<p>Important documents include BOL (Bill of Lading) and Rate Confirmation.</p>
+<p>Always verify details before dispatching.</p>`,
+
+`<h3>Chapter 7: Problem Handling</h3>
+<p>Issues like delays, breakdowns, and cancellations are common.</p>
+<p>Stay calm and solve problems quickly.</p>
+<p>Always inform broker and driver.</p>`
 ]
 };
 
