@@ -57,21 +57,57 @@ button{cursor:pointer}
 </div>
 </div>
 
-<script>
+<script type="module">
+  // ✅ Firebase v10+ (LATEST WORKING)
 
-// 🔥 YOUR FIREBASE CONFIG
-onst firebaseConfig = {
-    apiKey: "AIzaSyB3kxO-o65YpZGeLRP-sF_m8BR9rt6lkz8",
-    authDomain: "lms-training-7bb26.firebaseapp.com",
-    projectId: "lms-training-7bb26",
-    storageBucket: "lms-training-7bb26.firebasestorage.app",
-    messagingSenderId: "791631109001",
-    appId: "1:791631109001:web:f5d7fc5c2755ae01649f58",
-    measurementId: "G-XKKPYPXYSP"
-firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-const db = firebase.firestore();
-}
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } 
+  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+  // 🔥 APNA CONFIG YAHA PASTE KARO
+  const firebaseConfig = {
+    apiKey: "PASTE_YOUR_KEY",
+    authDomain: "PASTE_YOUR_DOMAIN",
+    projectId: "PASTE_YOUR_ID",
+    storageBucket: "PASTE_BUCKET",
+    messagingSenderId: "PASTE_ID",
+    appId: "PASTE_APP_ID"
+  };
+
+  // Init
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  // Signup
+  window.signup = function () {
+    const email = document.getElementById("email").value;
+    const pass = document.getElementById("pass").value;
+
+    createUserWithEmailAndPassword(auth, email, pass)
+      .then(() => {
+        alert("Signup Success");
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
+  };
+
+  // Login
+  window.login = function () {
+    const email = document.getElementById("email").value;
+    const pass = document.getElementById("pass").value;
+
+    signInWithEmailAndPassword(auth, email, pass)
+      .then(() => {
+        alert("Login Success");
+        document.getElementById("loginPage").style.display = "none";
+        document.getElementById("app").classList.remove("hidden");
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
+  };
+</script>
 
 
 function logout(){auth.signOut();location.reload();}
