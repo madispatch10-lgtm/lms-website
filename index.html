@@ -2,27 +2,26 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>NextGen LMS - Live System</title>
+<title>Elite LMS Pro</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"></script>
+
 <style>
 body{margin:0;font-family:'Outfit',sans-serif;background:#0b1220;color:#e2e8f0}
-.header{padding:15px 30px;background:#020617}
+.header{padding:15px 30px;background:#020617;font-size:20px}
 .container{display:flex}
 .sidebar{width:250px;background:#020617;height:100vh;padding:20px}
-.sidebar button{width:100%;padding:10px;margin:5px 0;background:#1e293b;color:white;border:none;border-radius:8px}
+.sidebar button{width:100%;padding:10px;margin:5px 0;background:#1e293b;color:white;border:none;border-radius:8px;cursor:pointer}
 .main{flex:1;padding:30px}
 .card{background:#020617;padding:25px;border-radius:14px}
-button{cursor:pointer}
-.primary{background:#38bdf8;color:black;padding:10px;border:none;border-radius:8px}
+.primary{background:#38bdf8;color:black;padding:10px;border:none;border-radius:8px;cursor:pointer}
 .hidden{display:none}
 </style>
 </head>
+
 <body>
 
-<div class="header">🚀 LMS Live System</div>
+<div class="header">🚀 Elite LMS</div>
 
 <div id="loginPage" class="main">
 <div class="card">
@@ -46,8 +45,8 @@ button{cursor:pointer}
 <div class="main">
 <div id="home" class="card">
 <h2>Select Course</h2>
-<button onclick="loadCourse('sales')">Sales</button>
-<button onclick="loadCourse('dispatch')">Dispatch</button>
+<button onclick="loadCourse('sales')">Sales Training</button>
+<button onclick="loadCourse('dispatch')">Dispatch Training</button>
 </div>
 
 <div id="content" class="card hidden"></div>
@@ -58,99 +57,134 @@ button{cursor:pointer}
 </div>
 
 <script type="module">
-  // ✅ Firebase v10+ (LATEST WORKING)
 
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } 
-  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } 
+from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-  // 🔥 APNA CONFIG YAHA PASTE KARO
-  const firebaseConfig = {
-    apiKey: "PASTE_YOUR_KEY",
-    authDomain: "PASTE_YOUR_DOMAIN",
-    projectId: "PASTE_YOUR_ID",
-    storageBucket: "PASTE_BUCKET",
-    messagingSenderId: "PASTE_ID",
-    appId: "PASTE_APP_ID"
-  };
-
-  // Init
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-
-  // Signup
-  window.signup = function () {
-    const email = document.getElementById("email").value;
-    const pass = document.getElementById("pass").value;
-
-    createUserWithEmailAndPassword(auth, email, pass)
-      .then(() => {
-        alert("Signup Success");
-      })
-      .catch((error) => {
-        alert(error.message);
-      });
-  };
-
-  // Login
-  window.login = function () {
-    const email = document.getElementById("email").value;
-    const pass = document.getElementById("pass").value;
-
-    signInWithEmailAndPassword(auth, email, pass)
-      .then(() => {
-        alert("Login Success");
-        document.getElementById("loginPage").style.display = "none";
-        document.getElementById("app").classList.remove("hidden");
-      })
-      .catch((error) => {
-        alert(error.message);
-      });
-  };
-</script>
-
-
-function logout(){auth.signOut();location.reload();}
-
-const courses={
-sales:["Sales basics full training content here...","Closing strategies..."],
-dispatch:["Dispatch workflow full training...","Load booking system..."]
+// 🔥 APNA FIREBASE CONFIG YAHA PASTE KARO
+const firebaseConfig = {
+  apiKey: "PASTE_HERE",
+  authDomain: "PASTE_HERE",
+  projectId: "PASTE_HERE",
+  storageBucket: "PASTE_HERE",
+  messagingSenderId: "PASTE_HERE",
+  appId: "PASTE_HERE"
 };
 
-let current="";
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 
-function loadCourse(type){
+// AUTH
+window.signup = () => {
+  createUserWithEmailAndPassword(auth,email.value,pass.value)
+  .then(()=>alert("Signup Success"))
+  .catch(e=>alert(e.message));
+};
+
+window.login = () => {
+  signInWithEmailAndPassword(auth,email.value,pass.value)
+  .then(()=>{
+    loginPage.style.display='none';
+    appDiv.classList.remove('hidden');
+  })
+  .catch(e=>alert(e.message));
+};
+
+window.logout = () => {
+  signOut(auth);
+  location.reload();
+};
+
+// COURSES
+const data = {
+sales:[
+"Sales is about solving problems and building trust. Always understand customer needs before pitching.",
+"Cold calling: Hi this is [Name], we help businesses grow. Are you open to quick discussion?",
+"Closing: Shall we start today? Use confidence and urgency.",
+"Follow-up is key. Most deals close after multiple follow-ups.",
+"Customer psychology: People buy emotionally.",
+"Handling objections: Stay calm and logical.",
+"Sales funnel: Lead → Close → Retain.",
+"High ticket sales focus on value.",
+"CRM tools help track leads.",
+"Consistency builds success."
+],
+
+dispatch:[
+"Dispatch connects brokers and carriers.",
+"Use load boards like DAT.",
+"Booking script: Is this load still available?",
+"Negotiate rates smartly.",
+"Deadhead = empty miles.",
+"BOL, POD important docs.",
+"Truck types: Dry Van, Reefer.",
+"Payments via Zelle, PayPal.",
+"Check broker credit.",
+"Daily workflow: find → call → book → deliver."
+]
+};
+
+const quiz = {
+sales:[
+{q:"Sales is about?",o:["Value","Force","Ignore"],a:0},
+{q:"Follow-up?",o:["Important","Not needed"],a:0}
+],
+dispatch:[
+{q:"RPM?",o:["Rate per mile","Speed"],a:0},
+{q:"Deadhead?",o:["Empty miles","Loaded"],a:0}
+]
+};
+
+let current="",index=0;
+
+window.loadCourse=(type)=>{
 current=type;
 home.classList.add('hidden');
 content.classList.remove('hidden');
 renderModules();
 show(0);
-}
+};
 
 function renderModules(){
 let html="";
-courses[current].forEach((_,i)=>{
-html+=`<button onclick='show(${i})'>Module ${i+1}</button>`;
+data[current].forEach((_,i)=>{
+html+=`<button onclick="show(${i})">Module ${i+1}</button>`;
 });
-html+=`<button onclick='saveProgress()'>Save Progress</button>`;
-html+=`<button onclick='generateCertificate()'>Get Certificate</button>`;
+html+=`<button onclick="startQuiz()">Take Test</button>`;
 modules.innerHTML=html;
 }
 
-function show(i){content.innerHTML=courses[current][i];}
+window.show=(i)=>{
+content.innerHTML=data[current][i];
+};
 
-function saveProgress(){
-let user=auth.currentUser;
-db.collection("progress").doc(user.uid).set({course:current})
-.then(()=>alert('Progress Saved'));
-}
+window.startQuiz=()=>{
+content.classList.add('hidden');
+quizDiv.classList.remove('hidden');
+let html="";
+quiz[current].forEach((q,i)=>{
+html+=`<p>${q.q}</p>`;
+q.o.forEach((opt,j)=>{
+html+=`<label><input type="radio" name="q${i}" value="${j}"> ${opt}</label><br>`;
+});
+});
+quizDiv.innerHTML=html+`<br><button onclick="submitQuiz()">Submit</button>`;
+};
 
-function generateCertificate(){
-let user=auth.currentUser;
-let name=user.email;
-let win=window.open();
-win.document.write(`<h1>Certificate</h1><p>This certifies ${name} completed ${current} training</p>`);
-}
+window.submitQuiz=()=>{
+let score=0;
+quiz[current].forEach((q,i)=>{
+let ans=document.querySelector(`input[name=q${i}]:checked`);
+if(ans && ans.value==q.a)score++;
+});
+alert("Score: "+score);
+location.reload();
+};
+
+// fix ids
+const appDiv = document.getElementById("app");
+const quizDiv = document.getElementById("quiz");
 
 </script>
 
