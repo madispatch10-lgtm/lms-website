@@ -71,25 +71,8 @@ onst firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
-
-function signup(){
-let email=document.getElementById('email').value;
-let pass=document.getElementById('pass').value;
-auth.createUserWithEmailAndPassword(email,pass)
-.then(()=>alert('Signup Success'))
-.catch(e=>alert(e.message));
 }
 
-function login(){
-let email=document.getElementById('email').value;
-let pass=document.getElementById('pass').value;
-auth.signInWithEmailAndPassword(email,pass)
-.then(()=>{
-loginPage.style.display='none';
-app.classList.remove('hidden');
-})
-.catch(e=>alert(e.message));
-}
 
 function logout(){auth.signOut();location.reload();}
 
