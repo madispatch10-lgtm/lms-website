@@ -7,31 +7,18 @@
 <style>
 body{margin:0;font-family:'Inter',sans-serif;background:#0a0f1c;color:#e5e7eb}
 .hero{padding:70px;text-align:center;background:linear-gradient(135deg,#020617,#111827,#1f2937)}
-.hero h1{font-size:42px;font-weight:600}
-.hero h2{color:#60a5fa;margin-bottom:20px}
-.hero p{max-width:750px;margin:auto;line-height:1.7;color:#cbd5f5}
+.hero h1{font-size:42px}
+.hero h2{color:#60a5fa}
+.hero p{max-width:750px;margin:auto;line-height:1.7}
 .contact{margin-top:20px;color:#94a3b8}
-.btn-main{margin-top:30px;padding:14px 28px;border:none;border-radius:12px;background:linear-gradient(135deg,#3b82f6,#06b6d4);color:white;font-weight:600;cursor:pointer}
+.btn-main{margin-top:30px;padding:14px 28px;border:none;border-radius:12px;background:linear-gradient(135deg,#3b82f6,#06b6d4);color:white;cursor:pointer}
 .container{display:flex}
-.sidebar{width:270px;background:#020617;height:100vh;padding:20px;overflow:auto;border-right:1px solid #1f2937}
-.sidebar button{width:100%;padding:12px;margin:6px 0;border:none;border-radius:10px;color:white;cursor:pointer;font-weight:500}
+.sidebar{width:270px;background:#020617;height:100vh;padding:20px;overflow:auto}
+.sidebar button{width:100%;padding:10px;margin:5px 0;border:none;border-radius:8px;color:white;cursor:pointer}
 .main{flex:1;padding:30px}
-.card{background:#020617;padding:30px;border-radius:16px;box-shadow:0 10px 40px rgba(0,0,0,0.6);line-height:1.7}
+.card{background:#020617;padding:30px;border-radius:16px}
 .hidden{display:none}
-
-/* DIFFERENT BUTTON COLORS */
-.btn1{background:#3b82f6}
-.btn2{background:#22c55e}
-.btn3{background:#f59e0b}
-.btn4{background:#ef4444}
-.btn5{background:#a855f7}
-.btn6{background:#06b6d4}
-.btn7{background:#84cc16}
-.btn8{background:#f97316}
-.btn9{background:#14b8a6}
-.btn10{background:#e11d48}
-
-.sidebar button:hover{opacity:0.85}
+.btn1{background:#3b82f6}.btn2{background:#22c55e}.btn3{background:#f59e0b}.btn4{background:#ef4444}.btn5{background:#a855f7}.btn6{background:#06b6d4}.btn7{background:#84cc16}.btn8{background:#f97316}.btn9{background:#14b8a6}.btn10{background:#e11d48}
 </style>
 </head>
 <body>
@@ -39,9 +26,7 @@ body{margin:0;font-family:'Inter',sans-serif;background:#0a0f1c;color:#e5e7eb}
 <div id="loginPage" class="hero">
 <h1>HOBYO FREIGHT DISPATCHERS</h1>
 <h2>TRAINING PORTAL</h2>
-<p>
-Hobyo Freight Dispatchers provides professional logistics and sales training for individuals who want to build a strong career in the trucking industry. Our training focuses on real-world dispatching operations, broker communication, and high-level negotiation strategies used in the U.S market. We prepare students with practical skills, confidence, and industry knowledge to succeed in real business environments.
-</p>
+<p>Professional training platform for dispatching and sales in trucking industry. Learn real workflows, communication, and negotiation skills to start working in real market.</p>
 <div class="contact">
 South Sioux City, Nebraska<br>
 Phone: 612-232-0542<br>
@@ -52,7 +37,6 @@ Email: hobyoglobal@gmail.com
 
 <div id="app" class="hidden">
 <div class="container">
-
 <div class="sidebar">
 <h3>Modules</h3>
 <div id="modules"></div>
@@ -62,268 +46,54 @@ Email: hobyoglobal@gmail.com
 <div class="main">
 <div id="home" class="card">
 <h2>Select Course</h2>
-<button class="btn-main" onclick="loadCourse('sales')">Sales Training</button>
-<button class="btn-main" onclick="loadCourse('dispatch')">Dispatch Training</button>
+<button class="btn-main" onclick="loadCourse('sales')">Sales</button>
+<button class="btn-main" onclick="loadCourse('dispatch')">Dispatch</button>
 </div>
 
 <div id="content" class="card hidden"></div>
+
+<div style="margin-top:20px;display:flex;justify-content:space-between;">
+<button onclick="prevModule()" id="prevBtn">⬅ Previous</button>
+<span id="progressText"></span>
+<button onclick="nextModule()" id="nextBtn">Next ➡</button>
 </div>
 
+</div>
 </div>
 </div>
 
 <script>
-
 function enterApp(){loginPage.style.display='none';app.classList.remove('hidden');}
 
-const data = {
-
-sales:[
-`<h3>1. Introduction to Sales</h3>
-<p>Sales is the process of identifying customer needs and offering solutions that create value. A professional salesperson focuses on understanding before selling.</p>
-<p>Building trust is the most important factor in long-term success. Customers prefer buying from someone reliable.</p>
-<p>Consistency in effort improves results over time.</p>
-<p>Clear communication removes confusion.</p>
-<p>Confidence creates authority.</p>
-<p>Listening helps you understand real problems.</p>
-<p>Sales is not forcing but guiding.</p>
-<p>Every interaction builds reputation.</p>
-<p>Follow-ups increase conversion.</p>
-<p>Discipline leads to growth.</p>`,
-
-`<h3>2. Customer Psychology</h3>
-<p>Customers make decisions emotionally and justify them logically. Understanding this helps you sell better.</p>
-<p>Fear of loss and desire for gain influence decisions.</p>
-<p>Identifying pain points is key.</p>
-<p>Empathy builds connection.</p>
-<p>Trust reduces hesitation.</p>
-<p>People prefer simple solutions.</p>
-<p>Confidence increases credibility.</p>
-<p>Personalization improves engagement.</p>
-<p>Strong relationships lead to repeat business.</p>
-<p>Psychology drives sales success.</p>`,
-
-`<h3>3. Cold Calling</h3>
-<p>Cold calling means reaching new clients without prior connection.</p>
-<p>A strong opening is essential.</p>
-<p>Respect the client’s time.</p>
-<p>Speak clearly and confidently.</p>
-<p>Use a simple script.</p>
-<p>Handle rejection professionally.</p>
-<p>Practice daily.</p>
-<p>Track performance.</p>
-<p>Stay consistent.</p>
-<p>Improve continuously.</p>`,
-
-`<h3>4. Objection Handling</h3>
-<p>Objections are normal in sales.</p>
-<p>Understand before responding.</p>
-<p>Stay calm and professional.</p>
-<p>Provide logical answers.</p>
-<p>Never argue.</p>
-<p>Build trust through clarity.</p>
-<p>Use examples.</p>
-<p>Turn objections into opportunities.</p>
-<p>Practice common scenarios.</p>
-<p>Close with confidence.</p>`,
-
-`<h3>5. Closing Techniques</h3>
-<p>Closing converts a lead into a customer.</p>
-<p>Guide the client clearly.</p>
-<p>Use urgency when needed.</p>
-<p>Ask confidently.</p>
-<p>Remove doubts.</p>
-<p>Offer clear next steps.</p>
-<p>Timing matters.</p>
-<p>Stay professional.</p>
-<p>Confidence wins deals.</p>
-<p>Keep it simple.</p>`,
-
-`<h3>6. Follow-Up Strategy</h3>
-<p>Follow-ups increase success rate.</p>
-<p>Most deals close after multiple touches.</p>
-<p>Be consistent.</p>
-<p>Do not spam.</p>
-<p>Provide value each time.</p>
-<p>Stay polite.</p>
-<p>Track communication.</p>
-<p>Use different channels.</p>
-<p>Build relationships.</p>
-<p>Persistence pays off.</p>`,
-
-`<h3>7. Sales Funnel</h3>
-<p>Sales funnel shows the journey of a customer.</p>
-<p>Lead generation is first step.</p>
-<p>Qualification filters prospects.</p>
-<p>Presentation builds interest.</p>
-<p>Closing completes sale.</p>
-<p>Retention builds loyalty.</p>
-<p>Each stage matters.</p>
-<p>Track conversions.</p>
-<p>Improve weak points.</p>
-<p>Scale gradually.</p>`,
-
-`<h3>8. Communication Skills</h3>
-<p>Clear communication is critical.</p>
-<p>Speak confidently.</p>
-<p>Listen actively.</p>
-<p>Avoid complex words.</p>
-<p>Use correct tone.</p>
-<p>Stay polite.</p>
-<p>Understand audience.</p>
-<p>Practice daily.</p>
-<p>Improve clarity.</p>
-<p>Build trust.</p>`,
-
-`<h3>9. High Ticket Sales</h3>
-<p>High ticket sales focus on value.</p>
-<p>Build authority.</p>
-<p>Target serious clients.</p>
-<p>Explain ROI clearly.</p>
-<p>Handle objections strongly.</p>
-<p>Be patient.</p>
-<p>Build trust.</p>
-<p>Offer solutions.</p>
-<p>Close smartly.</p>
-<p>Maintain relationship.</p>`,
-
-`<h3>10. Scaling Sales</h3>
-<p>Scaling increases business growth.</p>
-<p>Use systems.</p>
-<p>Automate processes.</p>
-<p>Hire team.</p>
-<p>Track performance.</p>
-<p>Use CRM tools.</p>
-<p>Expand market.</p>
-<p>Measure results.</p>
-<p>Improve strategies.</p>
-<p>Grow consistently.</p>`
-],
-
-dispatch:[
-`<h3>1. Dispatch Overview</h3>
-<p>Dispatching connects brokers and carriers in logistics operations.</p>
-<p>It involves managing loads, drivers, and schedules.</p>
-<p>Strong communication is required.</p>
-<p>Planning routes increases efficiency.</p>
-<p>Tracking shipments is essential.</p>
-<p>Maintaining records is important.</p>
-<p>Building broker relationships helps growth.</p>
-<p>Timely delivery ensures success.</p>
-<p>Problem-solving skills are needed.</p>
-<p>Dispatching drives profit.</p>`,
-
-`<h3>2. Load Boards</h3>
-<p>Load boards help find available freight loads.</p>
-<p>DAT and Truckstop are popular platforms.</p>
-<p>Filter loads by location and rate.</p>
-<p>Check RPM before booking.</p>
-<p>Select profitable loads.</p>
-<p>Avoid low-paying loads.</p>
-<p>Stay active on boards.</p>
-<p>Update searches regularly.</p>
-<p>Analyze market trends.</p>
-<p>Work efficiently.</p>`,
-
-`<h3>3. Booking Loads</h3>
-<p>Booking requires calling brokers.</p>
-<p>Confirm load details clearly.</p>
-<p>Negotiate rates professionally.</p>
-<p>Send required documents.</p>
-<p>Get rate confirmation.</p>
-<p>Maintain communication.</p>
-<p>Be professional.</p>
-<p>Stay organized.</p>
-<p>Track booked loads.</p>
-<p>Ensure smooth process.</p>`,
-
-`<h3>4. Deadhead & Miles</h3>
-<p>Deadhead means empty miles without load.</p>
-<p>Loaded miles generate revenue.</p>
-<p>Reduce deadhead distance.</p>
-<p>Plan routes smartly.</p>
-<p>Choose nearby loads.</p>
-<p>Improve efficiency.</p>
-<p>Track mileage.</p>
-<p>Increase profit.</p>
-<p>Optimize trips.</p>
-<p>Use strategy.</p>`,
-
-`<h3>5. Broker Credit Check</h3>
-<p>Always verify broker credibility.</p>
-<p>Check credit scores.</p>
-<p>Avoid fraudulent brokers.</p>
-<p>Use FreightGuard reports.</p>
-<p>Confirm payment history.</p>
-<p>Build trust.</p>
-<p>Work with reliable brokers.</p>
-<p>Ensure timely payments.</p>
-<p>Reduce risks.</p>
-<p>Maintain safety.</p>`,
-
-`<h3>6. Important Documents</h3>
-<p>BOL is bill of lading.</p>
-<p>POD is proof of delivery.</p>
-<p>Rate confirmation defines agreement.</p>
-<p>W9 verifies company.</p>
-<p>COI shows insurance.</p>
-<p>MC authority is license.</p>
-<p>Check all documents carefully.</p>
-<p>Store records properly.</p>
-<p>Stay compliant.</p>
-<p>Avoid errors.</p>`,
-
-`<h3>7. Truck Types</h3>
-<p>Dry van is most common.</p>
-<p>Reefer is for temperature loads.</p>
-<p>Flatbed carries heavy equipment.</p>
-<p>Step deck for oversized loads.</p>
-<p>Box truck for local deliveries.</p>
-<p>Know specifications.</p>
-<p>Match loads properly.</p>
-<p>Check RPM.</p>
-<p>Choose best option.</p>
-<p>Maximize earnings.</p>`,
-
-`<h3>8. Payments & Invoicing</h3>
-<p>Dispatchers charge fees.</p>
-<p>Invoice carriers regularly.</p>
-<p>Use Zelle or PayPal.</p>
-<p>Track all payments.</p>
-<p>Maintain records.</p>
-<p>Ensure transparency.</p>
-<p>Follow payment schedule.</p>
-<p>Avoid delays.</p>
-<p>Stay professional.</p>
-<p>Secure income.</p>`,
-
-`<h3>9. Freight Guard</h3>
-<p>FreightGuard shows broker reports.</p>
-<p>Check before booking loads.</p>
-<p>Avoid risky brokers.</p>
-<p>Protect business.</p>
-<p>Verify complaints.</p>
-<p>Stay alert.</p>
-<p>Reduce risk.</p>
-<p>Work safely.</p>
-<p>Maintain quality.</p>
-<p>Ensure reliability.</p>`,
-
-`<h3>10. Daily Workflow</h3>
-<p>Start day by checking load boards.</p>
-<p>Find suitable loads.</p>
-<p>Call brokers.</p>
-<p>Negotiate rates.</p>
-<p>Book loads.</p>
-<p>Track shipments.</p>
-<p>Update drivers.</p>
-<p>Confirm delivery.</p>
-<p>Send invoices.</p>
-<p>Repeat daily.</p>`
-]
-}; // keep content same
+const data={
+ sales:[
+ `<h3>1. Sales Intro</h3><p>Sales is about solving problems and building trust with customers through communication and value delivery.</p><p>Understanding customer needs is critical before offering anything.</p><p>Confidence builds credibility.</p><p>Consistency improves performance.</p><p>Listening is key.</p><p>Trust increases conversions.</p><p>Focus on long-term relationships.</p><p>Follow-up is essential.</p><p>Clear communication matters.</p><p>Discipline drives success.</p>`,
+ `<h3>2. Customer Psychology</h3><p>Customers buy emotionally and justify logically.</p><p>Understanding pain points helps in selling.</p><p>Empathy builds connection.</p><p>Trust reduces hesitation.</p><p>Personalization improves results.</p><p>Confidence creates authority.</p><p>People prefer simple solutions.</p><p>Strong relationships matter.</p><p>Psychology drives decisions.</p><p>Value wins.</p>`,
+ `<h3>3. Cold Calling</h3><p>Cold calling connects you with new clients.</p><p>Strong opening matters.</p><p>Be direct and respectful.</p><p>Confidence builds trust.</p><p>Use simple script.</p><p>Handle rejection.</p><p>Practice daily.</p><p>Track calls.</p><p>Stay consistent.</p><p>Improve daily.</p>`,
+ `<h3>4. Objections</h3><p>Objections are normal.</p><p>Understand first.</p><p>Respond calmly.</p><p>Provide value.</p><p>Never argue.</p><p>Use logic.</p><p>Build trust.</p><p>Practice responses.</p><p>Stay confident.</p><p>Close effectively.</p>`,
+ `<h3>5. Closing</h3><p>Closing finalizes sale.</p><p>Guide clearly.</p><p>Remove doubts.</p><p>Use urgency.</p><p>Ask confidently.</p><p>Timing matters.</p><p>Stay professional.</p><p>Be clear.</p><p>Confidence wins.</p><p>Keep simple.</p>`,
+ `<h3>6. Follow-Up</h3><p>Follow-ups close deals.</p><p>Stay consistent.</p><p>Be polite.</p><p>Provide value.</p><p>Do not spam.</p><p>Track responses.</p><p>Use channels.</p><p>Build trust.</p><p>Persistence pays.</p><p>Stay professional.</p>`,
+ `<h3>7. Funnel</h3><p>Lead → Close → Retain.</p><p>Each stage matters.</p><p>Improve conversion.</p><p>Track data.</p><p>Optimize process.</p><p>Scale gradually.</p><p>Focus quality.</p><p>Build pipeline.</p><p>Stay consistent.</p><p>Grow smartly.</p>`,
+ `<h3>8. Communication</h3><p>Clear speech matters.</p><p>Listen actively.</p><p>Use right tone.</p><p>Stay polite.</p><p>Understand client.</p><p>Avoid confusion.</p><p>Practice daily.</p><p>Build trust.</p><p>Improve clarity.</p><p>Stay confident.</p>`,
+ `<h3>9. High Ticket</h3><p>Focus on value.</p><p>Target serious clients.</p><p>Explain ROI.</p><p>Build authority.</p><p>Handle objections.</p><p>Stay patient.</p><p>Offer solutions.</p><p>Close smartly.</p><p>Build trust.</p><p>Maintain relations.</p>`,
+ `<h3>10. Scaling</h3><p>Use systems.</p><p>Automate tasks.</p><p>Hire team.</p><p>Track metrics.</p><p>Improve strategy.</p><p>Expand market.</p><p>Use CRM.</p><p>Measure results.</p><p>Stay consistent.</p><p>Grow business.</p>`
+ ],
+ dispatch:[
+ `<h3>1. Dispatch Intro</h3><p>Dispatch connects brokers and carriers.</p><p>Manage loads and routes.</p><p>Track shipments.</p><p>Communicate clearly.</p><p>Plan efficiently.</p><p>Maintain records.</p><p>Build relationships.</p><p>Ensure delivery.</p><p>Solve issues.</p><p>Increase profit.</p>`,
+ `<h3>2. Load Boards</h3><p>Use DAT.</p><p>Find loads.</p><p>Check RPM.</p><p>Filter results.</p><p>Select best.</p><p>Avoid bad loads.</p><p>Stay active.</p><p>Update search.</p><p>Analyze trends.</p><p>Work smart.</p>`,
+ `<h3>3. Booking</h3><p>Call brokers.</p><p>Confirm details.</p><p>Negotiate rates.</p><p>Send docs.</p><p>Get confirmation.</p><p>Stay professional.</p><p>Track loads.</p><p>Stay organized.</p><p>Communicate.</p><p>Close deals.</p>`,
+ `<h3>4. Deadhead</h3><p>Empty miles reduce profit.</p><p>Minimize distance.</p><p>Plan routes.</p><p>Choose nearby loads.</p><p>Track miles.</p><p>Improve efficiency.</p><p>Optimize trips.</p><p>Increase earnings.</p><p>Use strategy.</p><p>Stay efficient.</p>`,
+ `<h3>5. Broker Check</h3><p>Verify brokers.</p><p>Check credit.</p><p>Avoid fraud.</p><p>Use FreightGuard.</p><p>Confirm payment.</p><p>Stay safe.</p><p>Build trust.</p><p>Reduce risk.</p><p>Work smart.</p><p>Ensure safety.</p>`,
+ `<h3>6. Documents</h3><p>BOL required.</p><p>POD proof.</p><p>Rate confirmation.</p><p>W9.</p><p>COI.</p><p>MC authority.</p><p>Check accuracy.</p><p>Store records.</p><p>Stay compliant.</p><p>Avoid errors.</p>`,
+ `<h3>7. Trucks</h3><p>Dry van common.</p><p>Reefer cold loads.</p><p>Flatbed heavy.</p><p>Step deck special.</p><p>Box truck local.</p><p>Know specs.</p><p>Match loads.</p><p>Check RPM.</p><p>Choose best.</p><p>Maximize profit.</p>`,
+ `<h3>8. Payment</h3><p>Invoice carriers.</p><p>Charge fee.</p><p>Use Zelle.</p><p>Use PayPal.</p><p>Track payments.</p><p>Maintain records.</p><p>Ensure transparency.</p><p>Follow schedule.</p><p>Be professional.</p><p>Secure income.</p>`,
+ `<h3>9. Freight Guard</h3><p>Check reports.</p><p>Avoid bad brokers.</p><p>Protect business.</p><p>Verify complaints.</p><p>Stay alert.</p><p>Reduce risk.</p><p>Work safely.</p><p>Maintain quality.</p><p>Ensure reliability.</p><p>Build trust.</p>`,
+ `<h3>10. Workflow</h3><p>Start day early.</p><p>Find loads.</p><p>Call brokers.</p><p>Book loads.</p><p>Track shipments.</p><p>Update drivers.</p><p>Confirm delivery.</p><p>Send invoice.</p><p>Close day.</p><p>Repeat process.</p>`
+ ]
+};
 
 let current="";
+let currentIndex=0;
 
 function loadCourse(type){
 current=type;
@@ -335,16 +105,24 @@ show(0);
 
 function renderModules(){
 let html="";
-const classes=['btn1','btn2','btn3','btn4','btn5','btn6','btn7','btn8','btn9','btn10'];
+const cls=['btn1','btn2','btn3','btn4','btn5','btn6','btn7','btn8','btn9','btn10'];
 data[current].forEach((_,i)=>{
-html+=`<button class='${classes[i%10]}' onclick='show(${i})'>Module ${i+1}</button>`;
+html+=`<button class='${cls[i]}' onclick='show(${i})'>Module ${i+1}</button>`;
 });
 modules.innerHTML=html;
 }
 
-function show(i){content.innerHTML=data[current][i];}
+function show(i){
+currentIndex=i;
+content.innerHTML=data[current][i];
+progressText.innerText=`Module ${i+1} of ${data[current].length}`;
+prevBtn.style.display=i===0?'none':'inline-block';
+nextBtn.style.display=i===data[current].length-1?'none':'inline-block';
+}
+
+function nextModule(){if(currentIndex<data[current].length-1)show(currentIndex+1)}
+function prevModule(){if(currentIndex>0)show(currentIndex-1)}
 
 </script>
-
 </body>
 </html>
