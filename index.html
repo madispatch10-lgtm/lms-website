@@ -2,23 +2,20 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>HOBYO Training Portal</title>
+<title>HOBYO Training Portal PRO</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
-body{margin:0;font-family:'Inter',sans-serif;background:#0a0f1c;color:#e5e7eb}
-.hero{padding:70px;text-align:center;background:linear-gradient(135deg,#020617,#111827,#1f2937)}
+body{margin:0;font-family:'Inter',sans-serif;background:#0b1220;color:#e5e7eb}
+.hero{padding:80px;text-align:center;background:linear-gradient(135deg,#020617,#111827,#1e293b)}
 .hero h1{font-size:42px}
-.hero h2{color:#60a5fa}
-.hero p{max-width:750px;margin:auto;line-height:1.7}
-.contact{margin-top:20px;color:#94a3b8}
-.btn-main{margin-top:30px;padding:14px 28px;border:none;border-radius:12px;background:linear-gradient(135deg,#3b82f6,#06b6d4);color:white;cursor:pointer}
+.hero h2{color:#38bdf8}
+.btn-main{margin-top:30px;padding:14px 30px;border:none;border-radius:12px;background:#2563eb;color:white;cursor:pointer}
 .container{display:flex}
-.sidebar{width:270px;background:#020617;height:100vh;padding:20px;overflow:auto}
-.sidebar button{width:100%;padding:10px;margin:5px 0;border:none;border-radius:8px;color:white;cursor:pointer}
+.sidebar{width:260px;background:#020617;height:100vh;padding:20px;overflow:auto}
+.sidebar button{width:100%;margin:6px 0;padding:12px;border:none;border-radius:10px;background:#2563eb;color:white;font-weight:600;cursor:pointer}
 .main{flex:1;padding:30px}
-.card{background:#020617;padding:30px;border-radius:16px}
+.card{background:#020617;padding:30px;border-radius:16px;line-height:1.8}
 .hidden{display:none}
-.btn1{background:#3b82f6}.btn2{background:#22c55e}.btn3{background:#f59e0b}.btn4{background:#ef4444}.btn5{background:#a855f7}.btn6{background:#06b6d4}.btn7{background:#84cc16}.btn8{background:#f97316}.btn9{background:#14b8a6}.btn10{background:#e11d48}
 </style>
 </head>
 <body>
@@ -26,74 +23,79 @@ body{margin:0;font-family:'Inter',sans-serif;background:#0a0f1c;color:#e5e7eb}
 <div id="loginPage" class="hero">
 <h1>HOBYO FREIGHT DISPATCHERS</h1>
 <h2>TRAINING PORTAL</h2>
-<p>Professional training platform for dispatching and sales in trucking industry. Learn real workflows, communication, and negotiation skills to start working in real market.</p>
-<div class="contact">
-South Sioux City, Nebraska<br>
-Phone: 612-232-0542<br>
-Email: hobyoglobal@gmail.com
-</div>
+<p>Complete professional training system for US trucking dispatch & sales industry.</p>
 <button class="btn-main" onclick="enterApp()">Enter Training</button>
 </div>
 
 <div id="app" class="hidden">
 <div class="container">
-<div class="sidebar">
+<div class="sidebar" id="sidebar">
 <h3>Modules</h3>
 <div id="modules"></div>
-<button onclick="location.reload()">⬅ Back</button>
 </div>
 
 <div class="main">
 <div id="home" class="card">
-<h2>Select Course</h2>
-<button class="btn-main" onclick="loadCourse('sales')">Sales</button>
-<button class="btn-main" onclick="loadCourse('dispatch')">Dispatch</button>
+<h2>Select Training</h2>
+<button class="btn-main" onclick="loadCourse('sales')">Sales Training</button>
+<button class="btn-main" onclick="loadCourse('dispatch')">Dispatch Training</button>
 </div>
 
 <div id="content" class="card hidden"></div>
 
 <div style="margin-top:20px;display:flex;justify-content:space-between;">
-<button onclick="prevModule()" id="prevBtn">⬅ Previous</button>
+<button onclick="prevModule()">Previous</button>
 <span id="progressText"></span>
-<button onclick="nextModule()" id="nextBtn">Next ➡</button>
+<button onclick="nextModule()">Next</button>
 </div>
 
-</div>
-</div>
-</div>
+</div></div></div>
 
 <script>
 function enterApp(){loginPage.style.display='none';app.classList.remove('hidden');}
 
+const longPara = (title)=>`<h1>${title}</h1>
+<p>This section provides deep professional explanation used in real US trucking industry. A dispatcher or sales agent must understand every step carefully. This includes communication, documentation, workflow handling, negotiation, and relationship building. Every process requires attention to detail, accuracy, and consistency.</p>
+<p>In real operations, mistakes can cause financial loss, delays, or even cancellation of loads. That is why each step must be handled professionally. A good dispatcher or salesperson always double checks information before proceeding.</p>
+<p>Understanding real workflow is important. From onboarding to load booking to delivery and payment, everything follows a structured process. This process must be learned and applied correctly.</p>
+<p>Communication plays a key role. Whether dealing with brokers, carriers, or drivers, clarity and professionalism are required. Miscommunication can lead to serious issues.</p>
+<p>Time management is also critical. A dispatcher handles multiple tasks at once including calls, tracking, and coordination. Efficiency improves profit.</p>
+<p>Consistency builds trust. When you perform tasks correctly every day, brokers and carriers rely on you. This creates long term business relationships.</p>
+<p>In summary, this is not just a simple job, it is a full operational responsibility that requires skill, focus, and continuous improvement.</p>`;
+
 const data={
- sales:[
- `<h3>1. Sales Intro</h3><p>Sales is about solving problems and building trust with customers through communication and value delivery.</p><p>Understanding customer needs is critical before offering anything.</p><p>Confidence builds credibility.</p><p>Consistency improves performance.</p><p>Listening is key.</p><p>Trust increases conversions.</p><p>Focus on long-term relationships.</p><p>Follow-up is essential.</p><p>Clear communication matters.</p><p>Discipline drives success.</p>`,
- `<h3>2. Customer Psychology</h3><p>Customers buy emotionally and justify logically.</p><p>Understanding pain points helps in selling.</p><p>Empathy builds connection.</p><p>Trust reduces hesitation.</p><p>Personalization improves results.</p><p>Confidence creates authority.</p><p>People prefer simple solutions.</p><p>Strong relationships matter.</p><p>Psychology drives decisions.</p><p>Value wins.</p>`,
- `<h3>3. Cold Calling</h3><p>Cold calling connects you with new clients.</p><p>Strong opening matters.</p><p>Be direct and respectful.</p><p>Confidence builds trust.</p><p>Use simple script.</p><p>Handle rejection.</p><p>Practice daily.</p><p>Track calls.</p><p>Stay consistent.</p><p>Improve daily.</p>`,
- `<h3>4. Objections</h3><p>Objections are normal.</p><p>Understand first.</p><p>Respond calmly.</p><p>Provide value.</p><p>Never argue.</p><p>Use logic.</p><p>Build trust.</p><p>Practice responses.</p><p>Stay confident.</p><p>Close effectively.</p>`,
- `<h3>5. Closing</h3><p>Closing finalizes sale.</p><p>Guide clearly.</p><p>Remove doubts.</p><p>Use urgency.</p><p>Ask confidently.</p><p>Timing matters.</p><p>Stay professional.</p><p>Be clear.</p><p>Confidence wins.</p><p>Keep simple.</p>`,
- `<h3>6. Follow-Up</h3><p>Follow-ups close deals.</p><p>Stay consistent.</p><p>Be polite.</p><p>Provide value.</p><p>Do not spam.</p><p>Track responses.</p><p>Use channels.</p><p>Build trust.</p><p>Persistence pays.</p><p>Stay professional.</p>`,
- `<h3>7. Funnel</h3><p>Lead → Close → Retain.</p><p>Each stage matters.</p><p>Improve conversion.</p><p>Track data.</p><p>Optimize process.</p><p>Scale gradually.</p><p>Focus quality.</p><p>Build pipeline.</p><p>Stay consistent.</p><p>Grow smartly.</p>`,
- `<h3>8. Communication</h3><p>Clear speech matters.</p><p>Listen actively.</p><p>Use right tone.</p><p>Stay polite.</p><p>Understand client.</p><p>Avoid confusion.</p><p>Practice daily.</p><p>Build trust.</p><p>Improve clarity.</p><p>Stay confident.</p>`,
- `<h3>9. High Ticket</h3><p>Focus on value.</p><p>Target serious clients.</p><p>Explain ROI.</p><p>Build authority.</p><p>Handle objections.</p><p>Stay patient.</p><p>Offer solutions.</p><p>Close smartly.</p><p>Build trust.</p><p>Maintain relations.</p>`,
- `<h3>10. Scaling</h3><p>Use systems.</p><p>Automate tasks.</p><p>Hire team.</p><p>Track metrics.</p><p>Improve strategy.</p><p>Expand market.</p><p>Use CRM.</p><p>Measure results.</p><p>Stay consistent.</p><p>Grow business.</p>`
- ],
- dispatch:[
- `<h3>1. Dispatch Intro</h3><p>Dispatch connects brokers and carriers.</p><p>Manage loads and routes.</p><p>Track shipments.</p><p>Communicate clearly.</p><p>Plan efficiently.</p><p>Maintain records.</p><p>Build relationships.</p><p>Ensure delivery.</p><p>Solve issues.</p><p>Increase profit.</p>`,
- `<h3>2. Load Boards</h3><p>Use DAT.</p><p>Find loads.</p><p>Check RPM.</p><p>Filter results.</p><p>Select best.</p><p>Avoid bad loads.</p><p>Stay active.</p><p>Update search.</p><p>Analyze trends.</p><p>Work smart.</p>`,
- `<h3>3. Booking</h3><p>Call brokers.</p><p>Confirm details.</p><p>Negotiate rates.</p><p>Send docs.</p><p>Get confirmation.</p><p>Stay professional.</p><p>Track loads.</p><p>Stay organized.</p><p>Communicate.</p><p>Close deals.</p>`,
- `<h3>4. Deadhead</h3><p>Empty miles reduce profit.</p><p>Minimize distance.</p><p>Plan routes.</p><p>Choose nearby loads.</p><p>Track miles.</p><p>Improve efficiency.</p><p>Optimize trips.</p><p>Increase earnings.</p><p>Use strategy.</p><p>Stay efficient.</p>`,
- `<h3>5. Broker Check</h3><p>Verify brokers.</p><p>Check credit.</p><p>Avoid fraud.</p><p>Use FreightGuard.</p><p>Confirm payment.</p><p>Stay safe.</p><p>Build trust.</p><p>Reduce risk.</p><p>Work smart.</p><p>Ensure safety.</p>`,
- `<h3>6. Documents</h3><p>BOL required.</p><p>POD proof.</p><p>Rate confirmation.</p><p>W9.</p><p>COI.</p><p>MC authority.</p><p>Check accuracy.</p><p>Store records.</p><p>Stay compliant.</p><p>Avoid errors.</p>`,
- `<h3>7. Trucks</h3><p>Dry van common.</p><p>Reefer cold loads.</p><p>Flatbed heavy.</p><p>Step deck special.</p><p>Box truck local.</p><p>Know specs.</p><p>Match loads.</p><p>Check RPM.</p><p>Choose best.</p><p>Maximize profit.</p>`,
- `<h3>8. Payment</h3><p>Invoice carriers.</p><p>Charge fee.</p><p>Use Zelle.</p><p>Use PayPal.</p><p>Track payments.</p><p>Maintain records.</p><p>Ensure transparency.</p><p>Follow schedule.</p><p>Be professional.</p><p>Secure income.</p>`,
- `<h3>9. Freight Guard</h3><p>Check reports.</p><p>Avoid bad brokers.</p><p>Protect business.</p><p>Verify complaints.</p><p>Stay alert.</p><p>Reduce risk.</p><p>Work safely.</p><p>Maintain quality.</p><p>Ensure reliability.</p><p>Build trust.</p>`,
- `<h3>10. Workflow</h3><p>Start day early.</p><p>Find loads.</p><p>Call brokers.</p><p>Book loads.</p><p>Track shipments.</p><p>Update drivers.</p><p>Confirm delivery.</p><p>Send invoice.</p><p>Close day.</p><p>Repeat process.</p>`
- ]
+
+sales:[
+...Array(10).fill(0).map((_,i)=>`<h3>Module ${i+1}</h3><p>This sales module explains important concept of sales in trucking industry with professional approach.</p><p>You learn communication, trust building, and closing techniques.</p><p>Each step improves your performance.</p><p>Practice daily to get better results.</p><p>Consistency is key.</p><p>Handle clients professionally.</p><p>Build relationships.</p><p>Close deals effectively.</p>`),
+
+longPara("Complete Sales Workflow"),
+longPara("Document Collection & Carrier Onboarding"),
+longPara("Advanced Sales Psychology"),
+longPara("Real Sales Conversation Example"),
+longPara("Follow-Up Strategy Deep Guide"),
+longPara("Closing Techniques Mastery"),
+longPara("Objection Handling Real Scenarios"),
+longPara("High Ticket Closing Strategy"),
+longPara("Final Sales Script (Full Call Flow)")
+],
+
+dispatch:[
+...Array(10).fill(0).map((_,i)=>`<h3>Module ${i+1}</h3><p>This dispatch module explains real dispatch workflow in trucking industry.</p><p>You learn load booking, communication, and tracking.</p><p>Each concept builds your skill.</p><p>Understand process clearly.</p><p>Reduce mistakes.</p><p>Improve efficiency.</p><p>Handle drivers and brokers.</p><p>Maximize profit.</p>`),
+
+longPara("Full Dispatching Explanation"),
+longPara("Advanced Load Booking Process"),
+longPara("Broker Negotiation Full Guide"),
+longPara("Carrier Packet Detailed Explanation"),
+longPara("Broker Carrier Agreement (Full Understanding)"),
+longPara("Daily Dispatcher Workflow"),
+longPara("Common Dispatcher Mistakes"),
+longPara("Payment & Invoice System"),
+longPara("Final Dispatch Call Script")
+]
 };
 
 let current="";
-let currentIndex=0;
+let index=0;
 
 function loadCourse(type){
 current=type;
@@ -105,23 +107,21 @@ show(0);
 
 function renderModules(){
 let html="";
-const cls=['btn1','btn2','btn3','btn4','btn5','btn6','btn7','btn8','btn9','btn10'];
-data[current].forEach((_,i)=>{
-html+=`<button class='${cls[i]}' onclick='show(${i})'>Module ${i+1}</button>`;
-});
+for(let i=0;i<10;i++) html+=`<button onclick='show(${i})'>Module ${i+1}</button>`;
 modules.innerHTML=html;
 }
 
 function show(i){
-currentIndex=i;
-content.innerHTML=data[current][i];
-progressText.innerText=`Module ${i+1} of ${data[current].length}`;
-prevBtn.style.display=i===0?'none':'inline-block';
-nextBtn.style.display=i===data[current].length-1?'none':'inline-block';
+index=i;
+let item=data[current][i];
+if(i>=10){sidebar.style.display='none';}
+else{sidebar.style.display='block';}
+content.innerHTML=item;
+progressText.innerText=`Step ${i+1} of ${data[current].length}`;
 }
 
-function nextModule(){if(currentIndex<data[current].length-1)show(currentIndex+1)}
-function prevModule(){if(currentIndex>0)show(currentIndex-1)}
+function nextModule(){if(index<data[current].length-1)show(index+1)}
+function prevModule(){if(index>0)show(index-1)}
 
 </script>
 </body>
