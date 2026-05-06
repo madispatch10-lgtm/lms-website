@@ -3,13 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <title>HOBYO Training Portal PRO</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
-body{margin:0;font-family:'Inter',sans-serif;background:#0b1220;color:#e5e7eb}
-.hero{padding:80px;text-align:center;background:linear-gradient(135deg,#020617,#111827,#1e293b)}
-.hero h1{font-size:42px}
-.hero h2{color:#38bdf8}
-.btn-main{margin-top:30px;padding:14px 30px;border:none;border-radius:12px;background:#2563eb;color:white;cursor:pointer}
+body{margin:0;font-family:'Poppins',sans-serif;background:#0b1220;color:#e5e7eb}
+.hero{padding:90px 20px;text-align:center;background:linear-gradient(135deg,#020617,#0f172a,#1e293b)}
+.logo{font-size:32px;font-weight:700;color:#38bdf8}
+.hero h1{font-size:40px;margin:10px 0}
+.hero p{max-width:700px;margin:auto;line-height:1.7;color:#cbd5f5}
+.btn-main{margin-top:30px;padding:14px 30px;border:none;border-radius:10px;background:#2563eb;color:white;cursor:pointer;font-size:16px}
 .container{display:flex}
 .sidebar{width:260px;background:#020617;height:100vh;padding:20px;overflow:auto}
 .sidebar button{width:100%;margin:6px 0;padding:12px;border:none;border-radius:10px;background:#2563eb;color:white;font-weight:600;cursor:pointer}
@@ -21,10 +22,10 @@ body{margin:0;font-family:'Inter',sans-serif;background:#0b1220;color:#e5e7eb}
 <body>
 
 <div id="loginPage" class="hero">
-<h1>HOBYO FREIGHT DISPATCHERS</h1>
-<h2>TRAINING PORTAL</h2>
-<p>Complete professional training system for US trucking dispatch & sales industry.</p>
-<button class="btn-main" onclick="enterApp()">Enter Training</button>
+<div class="logo">🚛 HOBYO DISPATCH</div>
+<h1>Freight Dispatch & Sales Training</h1>
+<p>Learn real US trucking dispatching and sales with step-by-step professional training. This course is designed to help you understand real workflows, communication, and operations used in the industry.</p>
+<button class="btn-main" onclick="enterApp()">Start Training</button>
 </div>
 
 <div id="app" class="hidden">
@@ -36,7 +37,7 @@ body{margin:0;font-family:'Inter',sans-serif;background:#0b1220;color:#e5e7eb}
 
 <div class="main">
 <div id="home" class="card">
-<h2>Select Training</h2>
+<h2>Select Course</h2>
 <button class="btn-main" onclick="loadCourse('sales')">Sales Training</button>
 <button class="btn-main" onclick="loadCourse('dispatch')">Dispatch Training</button>
 </div>
@@ -54,43 +55,67 @@ body{margin:0;font-family:'Inter',sans-serif;background:#0b1220;color:#e5e7eb}
 <script>
 function enterApp(){loginPage.style.display='none';app.classList.remove('hidden');}
 
-const longPara = (title)=>`<h1>${title}</h1>
-<p>This section provides deep professional explanation used in real US trucking industry. A dispatcher or sales agent must understand every step carefully. This includes communication, documentation, workflow handling, negotiation, and relationship building. Every process requires attention to detail, accuracy, and consistency.</p>
-<p>In real operations, mistakes can cause financial loss, delays, or even cancellation of loads. That is why each step must be handled professionally. A good dispatcher or salesperson always double checks information before proceeding.</p>
-<p>Understanding real workflow is important. From onboarding to load booking to delivery and payment, everything follows a structured process. This process must be learned and applied correctly.</p>
-<p>Communication plays a key role. Whether dealing with brokers, carriers, or drivers, clarity and professionalism are required. Miscommunication can lead to serious issues.</p>
-<p>Time management is also critical. A dispatcher handles multiple tasks at once including calls, tracking, and coordination. Efficiency improves profit.</p>
-<p>Consistency builds trust. When you perform tasks correctly every day, brokers and carriers rely on you. This creates long term business relationships.</p>
-<p>In summary, this is not just a simple job, it is a full operational responsibility that requires skill, focus, and continuous improvement.</p>`;
+const salesModules = [
+"Sales is about understanding client needs and offering real solutions. A professional salesperson builds trust, communicates clearly, and focuses on long-term relationships instead of quick wins.",
+"Customer psychology plays a major role. Clients usually decide emotionally and justify logically, so understanding their pain points is critical.",
+"Cold calling is the first step to reach new carriers. Confidence, tone, and clarity are important for success.",
+"Handling objections requires patience. You must listen, understand, and respond professionally.",
+"Closing is the final step where you convert a lead into a client by removing doubts and guiding decision.",
+"Follow-ups are essential because most deals are not closed in the first call.",
+"Sales funnel includes lead generation, qualification, presentation, and closing.",
+"Communication skills define your success in sales.",
+"High ticket sales focus on value rather than price.",
+"Scaling sales means building systems and teams."
+];
+
+const dispatchModules = [
+"Dispatching connects carriers with brokers and manages logistics operations.",
+"Load boards like DAT are used to find loads.",
+"Booking involves calling brokers and confirming details.",
+"Deadhead must be minimized to increase profit.",
+"Broker credit check is important to avoid fraud.",
+"Documents like BOL and POD are essential.",
+"Different truck types handle different loads.",
+"Payment process includes invoicing and tracking.",
+"FreightGuard helps identify risky brokers.",
+"Daily workflow includes load booking and tracking."
+];
+
+function longPage(title, content){
+return `<h1>${title}</h1><p>${content}</p>`;
+}
 
 const data={
-
 sales:[
-...Array(10).fill(0).map((_,i)=>`<h3>Module ${i+1}</h3><p>This sales module explains important concept of sales in trucking industry with professional approach.</p><p>You learn communication, trust building, and closing techniques.</p><p>Each step improves your performance.</p><p>Practice daily to get better results.</p><p>Consistency is key.</p><p>Handle clients professionally.</p><p>Build relationships.</p><p>Close deals effectively.</p>`),
+...salesModules.map((t,i)=>`<h3>Module ${i+1}</h3><p>${t}</p><p>This module builds your understanding step by step and prepares you for real client interaction.</p><p>Practice this concept in real scenarios to improve your skills.</p>`),
 
-longPara("Complete Sales Workflow"),
-longPara("Document Collection & Carrier Onboarding"),
-longPara("Advanced Sales Psychology"),
-longPara("Real Sales Conversation Example"),
-longPara("Follow-Up Strategy Deep Guide"),
-longPara("Closing Techniques Mastery"),
-longPara("Objection Handling Real Scenarios"),
-longPara("High Ticket Closing Strategy"),
-longPara("Final Sales Script (Full Call Flow)")
+longPage("Complete Sales Workflow","The sales workflow starts when a carrier shows interest. The salesperson introduces services, explains benefits, and understands the carrier’s issues like low rates or empty miles. After building trust, the salesperson offers a solution and moves toward closing the deal. Once agreed, documents such as W9, COI, MC Authority, NOA, and Voided Check are collected. These are verified and sent to the dispatch team. This process ensures proper onboarding and smooth transition.") ,
+
+longPage("Document Collection Deep Guide","Document collection is a critical step in sales. W9 verifies tax identity, COI confirms insurance, MC Authority proves legality, NOA is used for factoring, and Voided Check ensures correct payment details. Missing or incorrect documents can delay operations. A professional salesperson always verifies everything before sending it forward.") ,
+
+longPage("Real Sales Conversation","A real sales call starts with introduction, then identifying carrier needs. The salesperson explains how the service solves their problems. Objections are handled calmly, and the conversation moves toward closing. Confidence and clarity are key.") ,
+
+longPage("Follow Up Strategy","Follow-ups increase conversion rates. Many clients need time to decide, so consistent and polite follow-up helps close deals.") ,
+
+longPage("Closing Mastery","Closing requires confidence and timing. A salesperson must guide the client and remove hesitation.") ,
+
+longPage("Final Sales Script","This includes full structured script used in real industry conversations.")
 ],
 
 dispatch:[
-...Array(10).fill(0).map((_,i)=>`<h3>Module ${i+1}</h3><p>This dispatch module explains real dispatch workflow in trucking industry.</p><p>You learn load booking, communication, and tracking.</p><p>Each concept builds your skill.</p><p>Understand process clearly.</p><p>Reduce mistakes.</p><p>Improve efficiency.</p><p>Handle drivers and brokers.</p><p>Maximize profit.</p>`),
+...dispatchModules.map((t,i)=>`<h3>Module ${i+1}</h3><p>${t}</p><p>This concept is essential in daily dispatch operations.</p><p>Understanding this improves efficiency and performance.</p>`),
 
-longPara("Full Dispatching Explanation"),
-longPara("Advanced Load Booking Process"),
-longPara("Broker Negotiation Full Guide"),
-longPara("Carrier Packet Detailed Explanation"),
-longPara("Broker Carrier Agreement (Full Understanding)"),
-longPara("Daily Dispatcher Workflow"),
-longPara("Common Dispatcher Mistakes"),
-longPara("Payment & Invoice System"),
-longPara("Final Dispatch Call Script")
+longPage("Full Dispatch Explanation","Dispatching is the core of trucking operations. A dispatcher finds loads, negotiates rates, manages drivers, and ensures timely delivery. It requires communication, planning, and problem-solving skills."),
+
+longPage("Load Booking Process","Load booking starts by searching loads, contacting brokers, negotiating rates, and confirming details."),
+
+longPage("Broker Negotiation","Negotiation helps increase profit. A dispatcher must confidently ask for better rates."),
+
+longPage("Carrier Packet","Carrier packet includes W9, COI, MC, NOA, and Voided Check. It is required before booking loads."),
+
+longPage("Broker Agreement","Broker-carrier agreement includes terms, responsibilities, and payment details."),
+
+longPage("Daily Workflow","A dispatcher starts the day by finding loads, booking them, and tracking shipments.")
 ]
 };
 
